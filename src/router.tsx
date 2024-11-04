@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./routes/Home";
+import Upcoming from "./routes/Upcoming";
 import Search from "./routes/Search";
 
 export const router = createBrowserRouter([
@@ -9,7 +10,8 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: "/search", element: <Search /> },
+      { path: "upcoming", element: <Upcoming /> },
+      { path: "search", element: <Search /> },
     ],
   },
 ]);
