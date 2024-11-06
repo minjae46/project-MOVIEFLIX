@@ -74,6 +74,9 @@ input:active {
   box-shadow: none;
   outline: none;
 }
+svg {
+  outline: none;
+}
 
 
 `;
