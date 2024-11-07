@@ -130,9 +130,10 @@ export default function Header() {
       // style={{ backgroundColor: navBgColor }}
       initial={{ backgroundColor: "transparent" }}
       animate={{
-        backgroundColor: scrollDown ? "rgba(0,0,0,1)" : "rgba(0,0,0,0)",
+        backgroundColor: scrollDown ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
+        boxShadow: scrollDown ? "none" : "0 2px 5px rgba(0,0,0,0.1)",
       }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.8 }}
     >
       <Col>
         <Logo
