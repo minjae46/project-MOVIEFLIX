@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -13,6 +13,7 @@ const Nav = styled(motion.nav)`
   position: fixed;
   top: 0;
   font-size: 14px;
+  z-index: 1;
 `;
 
 const Col = styled.div`
@@ -85,10 +86,9 @@ const Input = styled(motion.input)`
 `;
 
 export default function Header() {
+  const location = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollDown, setScrollDown] = useState(false);
-  const homeMatch = useMatch("/");
-  const upcomingMatch = useMatch("upcoming");
   const searchRef = useRef<HTMLInputElement>(null);
 
   // useScroll, useTransform 훅 사용하는 방법
@@ -128,7 +128,7 @@ export default function Header() {
   return (
     <Nav
       // style={{ backgroundColor: navBgColor }}
-      initial={{ backgroundColor: "transparent" }}
+      initial={{ backgroundColor: "rgba(0,0,0,0)" }}
       animate={{
         backgroundColor: scrollDown ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
         boxShadow: scrollDown ? "none" : "0 2px 5px rgba(0,0,0,0.1)",
@@ -154,11 +154,38 @@ export default function Header() {
         </Logo>
         <Menu>
           <Item>
-            <Link to="/">Home {homeMatch && <Indicator layoutId="dot" />}</Link>
+            <Link to="/">
+              Home {location.pathname === "/" && <Indicator layoutId="dot" />}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/popular">
+              Popular
+              {location.pathname === "/popular" && <Indicator layoutId="dot" />}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/nowplaying">
+              Now Playing
+              {location.pathname === "/nowplaying" && (
+                <Indicator layoutId="dot" />
+              )}
+            </Link>
           </Item>
           <Item>
             <Link to="/upcoming">
-              Upcoming {upcomingMatch && <Indicator layoutId="dot" />}
+              Upcoming
+              {location.pathname === "/upcoming" && (
+                <Indicator layoutId="dot" />
+              )}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/toprated">
+              Top Rated
+              {location.pathname === "/toprated" && (
+                <Indicator layoutId="dot" />
+              )}
             </Link>
           </Item>
         </Menu>

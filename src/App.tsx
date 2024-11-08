@@ -51,11 +51,14 @@ table {
 * {
 box-sizing: border-box;
 margin: 0;
+::-webkit-scrollbar {
+display: none;
+}
 }
 body {
 background-color: rgba(0,0,0,1);
 font-family: sans-serif;
-color: white;s
+color: white;
 }
 a {
   text-decoration:none;
