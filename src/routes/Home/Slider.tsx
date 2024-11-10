@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
+import { makeImagePath } from "../../utils";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 170px;
+  height: 400px;
   margin-bottom: 10px;
   position: relative;
   background-color: purple;
-  //padding: 0 7px;
 `;
 
 const Title = styled.h2`
@@ -22,18 +22,20 @@ const Title = styled.h2`
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 7px;
+  gap: 8px;
   width: 100%;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   // absolute는 width가 반드시 있어야 한다.
-  top: 30px;
+  top: 35px;
 `;
 
-const Box = styled(motion.div)`
-  height: 120px;
-  background-color: grey;
-  border-radius: 5px;
+const Box = styled(motion.div)<{ bgimg: string }>`
+  height: 350px;
+  background-image: url(${(props) => props.bgimg});
+  background-size: cover;
+  background-position: center center;
+  border-radius: 10px;
 `;
 
 const PrevBtn = styled.span`
@@ -57,6 +59,18 @@ interface ISliderProps {
   pathKey: string;
 }
 
+const rowVariants = {
+  hidden: (back: boolean) => ({
+    x: back ? -window.innerWidth - 8 : window.innerWidth + 8,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (back: boolean) => ({
+    x: back ? window.innerWidth + 8 : -window.innerWidth - 8,
+  }),
+};
+
 const offset = 6;
 
 export default function Slider({ title, pathKey }: ISliderProps) {
@@ -66,17 +80,27 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   );
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
+  const [back, setBack] = useState(false);
 
-  const increaseIndex = () => {
-    if (leaving) return;
-    toggleLeaving();
-
-    setIndex((prev) => prev + 1);
+  const handleNext = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      setBack(false);
+      const totalMovies = data.results.length;
+      const maxIndex = Math.floor(totalMovies / offset) - 1; // page가 0에서 시작하므로 -1
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
   };
-  const decreaseIndex = () => {
-    if (leaving) return;
-    toggleLeaving();
-    setIndex((prev) => prev - 1);
+  const handlePrev = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      setBack(true);
+      const totalMovies = data.results.length;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+    }
   };
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
@@ -84,27 +108,32 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+      <AnimatePresence
+        initial={false}
+        onExitComplete={toggleLeaving}
+        custom={back}
+      >
         <Row
           key={index}
-          initial={{ x: window.innerWidth + 7 }}
-          animate={{ x: 0 }}
-          exit={{ x: -window.innerWidth - 7 }}
+          variants={rowVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          custom={back}
           transition={{ duration: 1 }}
         >
           {data?.results
             .slice(offset * index, offset * index + offset)
             .map((movie) => (
-              <Box key={movie.id}>{movie.title}</Box>
+              <Box
+                key={movie.id}
+                bgimg={makeImagePath(movie.poster_path)}
+              ></Box>
             ))}
-          {/* 
-          {data?.results.slice(0, 6).map((movie) => (
-            <Box key={movie.id}>{movie.title}</Box>
-          ))} */}
         </Row>
       </AnimatePresence>
 
-      <PrevBtn onClick={decreaseIndex}>
+      <PrevBtn onClick={handlePrev}>
         <svg
           data-slot="icon"
           fill="currentColor"
@@ -120,7 +149,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
           ></path>
         </svg>
       </PrevBtn>
-      <NextBtn onClick={increaseIndex}>
+      <NextBtn onClick={handleNext}>
         <svg
           data-slot="icon"
           fill="currentColor"

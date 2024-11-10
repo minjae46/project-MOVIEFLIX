@@ -38,7 +38,7 @@ const Overview = styled.p`
 const SliderContainer = styled.div`
   width: 100%;
   position: absolute;
-  top: 40%;
+  top: 80%;
   background-color: red;
 `;
 
@@ -71,10 +71,6 @@ export default function Home() {
             {sliderList.map((slider) => (
               <Slider title={slider.title} pathKey={slider.pathKey} />
             ))}
-            {/* <Slider title="최고 인기 영화를 만나보세요" pathKey="popular" />
-          <Slider title="현재 상영작을 만나보세요" pathKey="now_playing" />
-          <Slider title="기다림이 아깝지 않은 영화들" pathKey="upcoming" />
-          <Slider title="별점이 높은 영화들" pathKey="top_rated" /> */}
           </SliderContainer>
         </>
       )}
