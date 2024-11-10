@@ -35,6 +35,13 @@ const Overview = styled.p`
   -webkit-box-orient: vertical;
 `;
 
+const SliderContainer = styled.div`
+  width: 100%;
+  position: absolute;
+  top: 40%;
+  background-color: red;
+`;
+
 let sliderList = [
   { title: "최고 인기 영화를 만나보세요", pathKey: "popular" },
   { title: "현재 상영작을 만나보세요", pathKey: "now_playing" },
@@ -55,22 +62,20 @@ export default function Home() {
       ) : (
         <>
           <Banner
-            backdropimg={makeImagePath(data?.results[1].backdrop_path || "")}
+            backdropimg={makeImagePath(data?.results[0].backdrop_path || "")}
           >
-            <Title>{data?.results[1].title}</Title>
-            <Overview>{data?.results[1].overview}</Overview>
+            <Title>{data?.results[0].title}</Title>
+            <Overview>{data?.results[0].overview}</Overview>
           </Banner>
-          {sliderList.map((slider, i) => (
-            <Slider
-              title={slider.title}
-              pathKey={slider.pathKey}
-              positionOffset={i + 1}
-            />
-          ))}
-          {/* <Slider title="최고 인기 영화를 만나보세요" pathKey="popular" />
+          <SliderContainer>
+            {sliderList.map((slider) => (
+              <Slider title={slider.title} pathKey={slider.pathKey} />
+            ))}
+            {/* <Slider title="최고 인기 영화를 만나보세요" pathKey="popular" />
           <Slider title="현재 상영작을 만나보세요" pathKey="now_playing" />
           <Slider title="기다림이 아깝지 않은 영화들" pathKey="upcoming" />
           <Slider title="별점이 높은 영화들" pathKey="top_rated" /> */}
+          </SliderContainer>
         </>
       )}
     </Wrapper>

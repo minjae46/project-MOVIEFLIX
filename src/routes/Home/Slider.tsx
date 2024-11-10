@@ -4,29 +4,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 
-const Container = styled.div<{ positionOffset: number }>`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  position: absolute;
-  top: ${(props) => 430 + props.positionOffset * 200}px;
+  height: 170px;
+  margin-bottom: 10px;
+  position: relative;
+  background-color: purple;
+  //padding: 0 7px;
+`;
+
+const Title = styled.h2`
+  padding-left: 60px;
+  font-size: 20px;
 `;
 
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  gap: 7px;
   width: 100%;
-  padding: 0 60px;
   position: absolute;
-  top: 35px;
-`;
-
-const Title = styled.h2`
-  padding-left: 60px;
-  margin-bottom: 20px;
-  font-size: 22px;
+  // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
+  // absolute는 width가 반드시 있어야 한다.
+  top: 30px;
 `;
 
 const Box = styled(motion.div)`
@@ -38,7 +39,7 @@ const Box = styled(motion.div)`
 const PrevBtn = styled.span`
   position: absolute;
   left: 10px;
-  top: 35px;
+  top: 0;
   background-color: blue;
   cursor: pointer;
 `;
@@ -46,7 +47,7 @@ const PrevBtn = styled.span`
 const NextBtn = styled.span`
   position: absolute;
   right: 10px;
-  top: 35px;
+  top: 0;
   background-color: blue;
   cursor: pointer;
 `;
@@ -54,38 +55,22 @@ const NextBtn = styled.span`
 interface ISliderProps {
   title: string;
   pathKey: string;
-  positionOffset: number;
 }
-
-// const rowVariants = {
-//   hidden: {
-//     x: window.outerWidth + 8,
-//   },
-//   visible: { x: 0 },
-//   exit: { x: -window.outerWidth - 8 },
-// };
 
 const offset = 6;
 
-export default function Slider({
-  title,
-  pathKey,
-  positionOffset,
-}: ISliderProps) {
+export default function Slider({ title, pathKey }: ISliderProps) {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", `${pathKey}`],
     () => getMovies(pathKey)
   );
   const [index, setIndex] = useState(0);
-  const [leaving, setLeaving] = useState(false);
-
-  console.log("포지션옵셋", positionOffset);
-  console.log("인덱스", index);
-  console.log("리빙", leaving);
+  const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
 
   const increaseIndex = () => {
     if (leaving) return;
     toggleLeaving();
+
     setIndex((prev) => prev + 1);
   };
   const decreaseIndex = () => {
@@ -97,27 +82,25 @@ export default function Slider({
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
-    <Container positionOffset={positionOffset}>
+    <Wrapper>
       <Title>{title}</Title>
       <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
         <Row
           key={index}
-          // variants={rowVariants}
-          initial={{ x: window.outerWidth }}
+          initial={{ x: window.innerWidth + 7 }}
           animate={{ x: 0 }}
-          exit={{ x: -window.outerWidth }}
-          transition={{ type: "tween", duration: 1 }}
+          exit={{ x: -window.innerWidth - 7 }}
+          transition={{ duration: 1 }}
         >
-          {/* {data?.results
-            .slice(1)
+          {data?.results
             .slice(offset * index, offset * index + offset)
             .map((movie) => (
               <Box key={movie.id}>{movie.title}</Box>
-            ))} */}
-
+            ))}
+          {/* 
           {data?.results.slice(0, 6).map((movie) => (
             <Box key={movie.id}>{movie.title}</Box>
-          ))}
+          ))} */}
         </Row>
       </AnimatePresence>
 
@@ -153,6 +136,6 @@ export default function Slider({
           ></path>
         </svg>
       </NextBtn>
-    </Container>
+    </Wrapper>
   );
 }
