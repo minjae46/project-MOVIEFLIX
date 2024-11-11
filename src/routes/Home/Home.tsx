@@ -68,8 +68,8 @@ export default function Home() {
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <SliderContainer>
-            {sliderList.map((slider) => (
-              <Slider title={slider.title} pathKey={slider.pathKey} />
+            {sliderList.map((slider, i) => (
+              <Slider key={i} title={slider.title} pathKey={slider.pathKey} />
             ))}
           </SliderContainer>
         </>

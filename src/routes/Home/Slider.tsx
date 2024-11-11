@@ -5,10 +5,10 @@ import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 import { makeImagePath } from "../../utils";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ width: number }>`
   display: flex;
   flex-direction: column;
-  height: 400px;
+  height: ${(props) => (props.width / 6) * 1.7}px;
   margin-bottom: 10px;
   position: relative;
   background-color: purple;
@@ -22,16 +22,17 @@ const Title = styled.h2`
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   // absolute는 width가 반드시 있어야 한다.
   top: 35px;
+  background-color: aquamarine;
 `;
 
-const Box = styled(motion.div)<{ bgimg: string }>`
-  height: 350px;
+const Box = styled(motion.div)<{ bgimg: string; width: number }>`
+  height: ${(props) => (props.width / 6) * 1.5}px;
   background-image: url(${(props) => props.bgimg});
   background-size: cover;
   background-position: center center;
@@ -61,13 +62,13 @@ interface ISliderProps {
 
 const rowVariants = {
   hidden: (back: boolean) => ({
-    x: back ? -window.innerWidth - 8 : window.innerWidth + 8,
+    x: back ? -window.innerWidth - 10 : window.innerWidth + 10,
   }),
   visible: {
     x: 0,
   },
   exit: (back: boolean) => ({
-    x: back ? window.innerWidth + 8 : -window.innerWidth - 8,
+    x: back ? window.innerWidth + 10 : -window.innerWidth - 10,
   }),
 };
 
@@ -106,7 +107,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
-    <Wrapper>
+    <Wrapper width={window.innerWidth}>
       <Title>{title}</Title>
       <AnimatePresence
         initial={false}
@@ -128,6 +129,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
               <Box
                 key={movie.id}
                 bgimg={makeImagePath(movie.poster_path)}
+                width={window.innerWidth}
               ></Box>
             ))}
         </Row>
