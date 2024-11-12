@@ -5,11 +5,11 @@ import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 import { makeImagePath } from "../../utils";
 
-const Wrapper = styled.div<{ width: number }>`
+const Wrapper = styled.div<{ height: number }>`
   display: flex;
   flex-direction: column;
-  height: ${(props) => (props.width / 6) * 1.7}px;
-  margin-bottom: 10px;
+  height: ${(props) => props.height + 50}px;
+  margin-bottom: 20px;
   position: relative;
   background-color: purple;
 `;
@@ -17,6 +17,7 @@ const Wrapper = styled.div<{ width: number }>`
 const Title = styled.h2`
   padding-left: 60px;
   font-size: 20px;
+  background-color: green;
 `;
 
 const Row = styled(motion.div)`
@@ -31,8 +32,8 @@ const Row = styled(motion.div)`
   background-color: aquamarine;
 `;
 
-const Box = styled(motion.div)<{ bgimg: string; width: number }>`
-  height: ${(props) => (props.width / 6) * 1.5}px;
+const Box = styled(motion.div)<{ bgimg: string; height: number }>`
+  height: ${(props) => props.height}px;
   background-image: url(${(props) => props.bgimg});
   background-size: cover;
   background-position: center center;
@@ -107,7 +108,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
-    <Wrapper width={window.innerWidth}>
+    <Wrapper height={(window.innerWidth / 6) * 1.5}>
       <Title>{title}</Title>
       <AnimatePresence
         initial={false}
@@ -129,7 +130,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
               <Box
                 key={movie.id}
                 bgimg={makeImagePath(movie.poster_path)}
-                width={window.innerWidth}
+                height={(window.innerWidth / 6) * 1.5}
               ></Box>
             ))}
         </Row>
