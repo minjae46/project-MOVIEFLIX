@@ -5,35 +5,41 @@ import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 import { makeImagePath } from "../../utils";
 
-const Wrapper = styled.div<{ height: number }>`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: ${(props) => props.height + 50}px;
-  margin-bottom: 20px;
+  // margin-bottom: 100px;
   position: relative;
+  height: 26vw;
+  min-height: 150px;
+  // overflow: hidden;
+
   background-color: purple;
 `;
 
 const Title = styled.h2`
-  padding-left: 60px;
   font-size: 20px;
+
   background-color: green;
 `;
 
 const Row = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
-  width: 100%;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   // absolute는 width가 반드시 있어야 한다.
-  top: 35px;
+  top: 40px;
+  width: 100vw;
+
+  // overflow: hidden;
+
   background-color: aquamarine;
 `;
 
-const Box = styled(motion.div)<{ bgimg: string; height: number }>`
-  height: ${(props) => props.height}px;
+const Box = styled(motion.div)<{ bgimg: string }>`
+  aspect-ratio: 27 / 40;
   background-image: url(${(props) => props.bgimg});
   background-size: cover;
   background-position: center center;
@@ -41,19 +47,40 @@ const Box = styled(motion.div)<{ bgimg: string; height: number }>`
 `;
 
 const PrevBtn = styled.span`
-  position: absolute;
-  left: 10px;
-  top: 0;
-  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 35px;
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+    color: white;
+    transition: 0.5s;
+  }
 `;
 
 const NextBtn = styled.span`
-  position: absolute;
-  right: 10px;
-  top: 0;
-  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 10vw;
+  aspect-ratio: 1 / 2;
+
+  /* opacity: 0;
+  &:hover {
+    opacity: 1;
+    color: white;
+    transition: 0.5s;
+  } */
+
+  background-color: blue;
 `;
 
 interface ISliderProps {
@@ -73,7 +100,7 @@ const rowVariants = {
   }),
 };
 
-const offset = 6;
+const offset = 7;
 
 export default function Slider({ title, pathKey }: ISliderProps) {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
@@ -108,7 +135,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
-    <Wrapper height={(window.innerWidth / 6) * 1.5}>
+    <Wrapper>
       <Title>{title}</Title>
       <AnimatePresence
         initial={false}
@@ -130,7 +157,6 @@ export default function Slider({ title, pathKey }: ISliderProps) {
               <Box
                 key={movie.id}
                 bgimg={makeImagePath(movie.poster_path)}
-                height={(window.innerWidth / 6) * 1.5}
               ></Box>
             ))}
         </Row>
@@ -140,10 +166,9 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         <svg
           data-slot="icon"
           fill="currentColor"
-          viewBox="0 0 20 20"
+          viewBox="1 0 15 20"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-          width="40"
         >
           <path
             clipRule="evenodd"
@@ -156,10 +181,9 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         <svg
           data-slot="icon"
           fill="currentColor"
-          viewBox="0 0 20 20"
+          viewBox="1 0 15 20"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-          width="40"
         >
           <path
             clipRule="evenodd"
