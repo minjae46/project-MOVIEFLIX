@@ -8,11 +8,9 @@ import { makeImagePath } from "../../utils";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  // margin-bottom: 100px;
   position: relative;
   height: 26vw;
   min-height: 150px;
-  // overflow: hidden;
 
   background-color: purple;
 `;
@@ -33,8 +31,6 @@ const Row = styled(motion.div)`
   top: 40px;
   width: 100vw;
 
-  // overflow: hidden;
-
   background-color: aquamarine;
 `;
 
@@ -53,13 +49,16 @@ const PrevBtn = styled.span`
   cursor: pointer;
   position: absolute;
   left: 0;
-  top: 35px;
-  opacity: 0;
+  top: 40px;
+  width: 10vw;
+  aspect-ratio: 1 / 2;
+
+  /* opacity: 0;
   &:hover {
     opacity: 1;
     color: white;
-    transition: 0.5s;
-  }
+    transition: 1s;
+  } */
 `;
 
 const NextBtn = styled.span`
@@ -77,10 +76,8 @@ const NextBtn = styled.span`
   &:hover {
     opacity: 1;
     color: white;
-    transition: 0.5s;
+    transition: 1s;
   } */
-
-  background-color: blue;
 `;
 
 interface ISliderProps {
@@ -137,36 +134,41 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <AnimatePresence
-        initial={false}
-        onExitComplete={toggleLeaving}
-        custom={back}
-      >
-        <Row
-          key={index}
-          variants={rowVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
+
+      {isLoading ? (
+        <span>Loading...</span>
+      ) : (
+        <AnimatePresence
+          initial={false}
+          onExitComplete={toggleLeaving}
           custom={back}
-          transition={{ duration: 1 }}
         >
-          {data?.results
-            .slice(offset * index, offset * index + offset)
-            .map((movie) => (
-              <Box
-                key={movie.id}
-                bgimg={makeImagePath(movie.poster_path)}
-              ></Box>
-            ))}
-        </Row>
-      </AnimatePresence>
+          <Row
+            key={index}
+            variants={rowVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            custom={back}
+            transition={{ duration: 1 }}
+          >
+            {data?.results
+              .slice(offset * index, offset * index + offset)
+              .map((movie) => (
+                <Box
+                  key={movie.id}
+                  bgimg={makeImagePath(movie.poster_path)}
+                ></Box>
+              ))}
+          </Row>
+        </AnimatePresence>
+      )}
 
       <PrevBtn onClick={handlePrev}>
         <svg
           data-slot="icon"
           fill="currentColor"
-          viewBox="1 0 15 20"
+          viewBox="3 0 15 20"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
@@ -181,7 +183,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         <svg
           data-slot="icon"
           fill="currentColor"
-          viewBox="1 0 15 20"
+          viewBox="2 0 15 20"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >

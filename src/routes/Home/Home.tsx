@@ -39,7 +39,6 @@ const SliderContainer = styled.div`
   width: 100vw;
   position: absolute;
   top: 90vh;
-  // overflow: hidden;
 
   background-color: red;
 `;
