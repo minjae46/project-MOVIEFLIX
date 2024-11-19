@@ -7,13 +7,13 @@ const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   height: 70px;
   padding: 20px 60px;
   position: fixed;
   top: 0;
   font-size: 14px;
-  z-index: 1;
+  z-index: 99;
 `;
 
 const Col = styled.div`

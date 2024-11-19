@@ -40,7 +40,7 @@ const SliderContainer = styled.div`
   position: absolute;
   top: 90vh;
 
-  background-color: red;
+  //background-color: red;
 `;
 
 let sliderList = [
