@@ -8,6 +8,7 @@ import Slider from "./Slider";
 const Wrapper = styled.div``;
 
 const Banner = styled.div<{ backdropimg: string }>`
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;

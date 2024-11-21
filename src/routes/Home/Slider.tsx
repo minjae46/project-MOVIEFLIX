@@ -10,16 +10,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  height: 26vw;
-  min-height: 150px;
+  height: 27vw;
+  min-height: 180px;
 
   // background-color: purple;
 `;
 
 const Title = styled.h2`
   font-size: 20px;
-
-  // background-color: green;
 `;
 
 const Row = styled(motion.div)`
@@ -29,7 +27,7 @@ const Row = styled(motion.div)`
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   // absolute는 width가 반드시 있어야 한다.
-  top: 40px;
+  top: 35px;
   width: 90vw;
 
   // background-color: blue;
@@ -134,7 +132,7 @@ const boxVariants = {
   hover: {
     zIndex: 9,
     scale: 1.3,
-    y: -100,
+    y: -50,
     transition: {
       delay: 0.5,
       duration: 0.2,
