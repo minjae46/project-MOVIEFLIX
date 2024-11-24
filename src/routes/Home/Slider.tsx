@@ -12,12 +12,14 @@ const Wrapper = styled.div`
   position: relative;
   height: 27vw;
   min-height: 180px;
-
-  // background-color: purple;
 `;
 
 const Title = styled.h2`
   font-size: 20px;
+`;
+
+const Loader = styled.div`
+  padding-top: 100px;
 `;
 
 const Row = styled(motion.div)`
@@ -29,8 +31,6 @@ const Row = styled(motion.div)`
   // absolute는 width가 반드시 있어야 한다.
   top: 35px;
   width: 90vw;
-
-  // background-color: blue;
 `;
 
 const Box = styled(motion.div)<{ bgimg: string }>`
@@ -191,7 +191,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
       <Title>{title}</Title>
 
       {isLoading ? (
-        <span>Loading...</span>
+        <Loader>Loading...</Loader>
       ) : (
         <AnimatePresence
           initial={false}
