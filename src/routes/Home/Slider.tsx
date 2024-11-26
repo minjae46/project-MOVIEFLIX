@@ -10,8 +10,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  height: 27vw;
-  min-height: 180px;
+  height: 28vw;
 `;
 
 const Title = styled.h2`
@@ -28,7 +27,6 @@ const Row = styled(motion.div)`
   gap: 10px;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
-  // absolute는 width가 반드시 있어야 한다.
   top: 35px;
   width: 90vw;
 `;
@@ -59,13 +57,11 @@ const Info = styled(motion.div)`
   padding: 50px 10px 20px 10px;
   display: flex;
   flex-direction: column;
-
   h1 {
     font-size: 15px;
     font-weight: 800;
     margin-bottom: 12px;
   }
-
   span {
     font-size: 12px;
     margin-bottom: 7px;
