@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
@@ -158,6 +159,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
   const [back, setBack] = useState(false);
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (data) {
@@ -181,6 +183,10 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   };
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
+
+  const onBoxClicked = (movieId: number) => {
+    navigate(`/movies/${movieId}`);
+  };
 
   return (
     <Wrapper>
@@ -207,6 +213,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
               .slice(offset * index, offset * index + offset)
               .map((movie) => (
                 <Box
+                  onClick={() => onBoxClicked(movie.id)}
                   key={movie.id}
                   variants={boxVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
                   initial="normal"
