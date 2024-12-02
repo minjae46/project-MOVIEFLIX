@@ -13,7 +13,7 @@ const Nav = styled(motion.nav)`
   position: fixed;
   top: 0;
   font-size: 14px;
-  z-index: 99;
+  z-index: 9;
 `;
 
 const Col = styled.div`

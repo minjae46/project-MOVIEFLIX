@@ -1,7 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { IMovie } from "../api";
 import { makeImagePath, makeReleaseDate } from "../utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import MovieModal from "./MovieModal";
 
 const Box = styled(motion.div)<{ bgimg: string }>`
   aspect-ratio: 27 / 40;
@@ -17,6 +18,7 @@ const Box = styled(motion.div)<{ bgimg: string }>`
   &:last-child {
     transform-origin: center right;
   }
+  position: relative;
 `;
 
 const Info = styled(motion.div)`
@@ -67,24 +69,60 @@ const infoVariants = {
   },
 };
 
-export default function MovieBox(movie: IMovie) {
+interface IMovieBoxProps {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  sliderId: string;
+}
+
+export default function MovieBox({
+  sliderId,
+  id,
+  title,
+  poster_path,
+  release_date,
+  vote_average,
+}: IMovieBoxProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenClick = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseClick = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <Box
-      key={movie.id}
-      variants={boxVariants}
-      initial="normal"
-      whileHover="hover"
-      transition={{ type: "tween" }}
-      bgimg={makeImagePath(movie.poster_path)}
-    >
-      <Info variants={infoVariants}>
-        <h1>{movie.title}</h1>
-        <span>{makeReleaseDate(movie.release_date)}</span>
-        {/* 참고로 React Elements를 제외한 객체(Date 등)는 리액트 노드의 자식으로 유효하지 않다.
-            즉, <div>{여기에 객체 바로 못 넣는다}</div>
-            객체를 직접 넣기 위해선 key, type, props 속성이 반드시 존재해야 한다. */}
-        <span>평점 {movie.vote_average.toFixed(1)}</span>
-      </Info>
-    </Box>
+    <>
+      <Box
+        key={id}
+        layoutId={`${sliderId}${id}`}
+        variants={boxVariants}
+        initial="normal"
+        whileHover="hover"
+        transition={{ type: "tween" }}
+        bgimg={makeImagePath(poster_path)}
+      >
+        <Info onClick={handleOpenClick} variants={infoVariants}>
+          <h1>{title}</h1>
+          <span>{makeReleaseDate(release_date)}</span>
+          {/* 참고로 React Elements를 제외한 객체(Date 등)는 리액트 노드의 자식으로 유효하지 않다.
+          즉, <div>{여기에 객체 바로 못 넣는다}</div>
+          객체를 직접 넣기 위해선 key, type, props 속성이 반드시 존재해야 한다. */}
+          <span>평점 {vote_average.toFixed(1)}</span>
+        </Info>
+      </Box>
+      <AnimatePresence>
+        {isModalOpen && (
+          <MovieModal
+            onCloseClick={handleCloseClick}
+            id={id}
+            sliderId={sliderId}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
