@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
-import { makeImagePath, makeReleaseDate } from "../../utils";
+import MovieBox from "../../components/MovieBox";
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,43 +29,6 @@ const Row = styled(motion.div)`
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   top: 35px;
   width: 90vw;
-`;
-
-const Box = styled(motion.div)<{ bgimg: string }>`
-  aspect-ratio: 27 / 40;
-  background-image: url(${(props) => props.bgimg});
-  background-color: black;
-  background-size: cover;
-  background-position: center center;
-  border-radius: 5px;
-  cursor: pointer;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-
-const Info = styled(motion.div)`
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 25%);
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: -10%;
-  border-radius: 5px;
-  padding: 50px 10px 20px 10px;
-  display: flex;
-  flex-direction: column;
-  h1 {
-    font-size: 15px;
-    font-weight: 800;
-    margin-bottom: 12px;
-  }
-  span {
-    font-size: 12px;
-    margin-bottom: 7px;
-  }
 `;
 
 const PrevBtn = styled.span`
@@ -122,33 +84,6 @@ const rowVariants = {
   }),
 };
 
-const boxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    zIndex: 9,
-    scale: 1.3,
-    y: -50,
-    transition: {
-      delay: 0.5,
-      duration: 0.2,
-      type: "tween",
-    },
-  },
-};
-
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    transition: {
-      delay: 0.5,
-      duaration: 0.2,
-      type: "tween",
-    },
-  },
-};
-
 const offset = 7;
 
 export default function Slider({ title, pathKey }: ISliderProps) {
@@ -159,7 +94,6 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
   const [back, setBack] = useState(false);
-  const navigate = useNavigate();
 
   const handleNext = () => {
     if (data) {
@@ -184,14 +118,9 @@ export default function Slider({ title, pathKey }: ISliderProps) {
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
-  const onBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
-  };
-
   return (
-    <Wrapper>
+    <Container>
       <Title>{title}</Title>
-
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -202,7 +131,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         >
           <Row
             key={index}
-            variants={rowVariants}
+            variants={rowVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -212,24 +141,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
             {data?.results
               .slice(offset * index, offset * index + offset)
               .map((movie) => (
-                <Box
-                  onClick={() => onBoxClicked(movie.id)}
-                  key={movie.id}
-                  variants={boxVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
-                  initial="normal"
-                  whileHover="hover"
-                  transition={{ type: "tween" }}
-                  bgimg={makeImagePath(movie.poster_path)}
-                >
-                  <Info variants={infoVariants}>
-                    <h1>{movie.title}</h1>
-                    <span>{makeReleaseDate(movie.release_date)}</span>
-                    {/* 참고로 React Elements를 제외한 객체(Date 등)는 리액트 노드의 자식으로 유효하지 않다.
-                    즉, <div>{여기에 객체 바로 못 넣는다}</div>
-                    객체를 직접 넣기 위해선 key, type, props 속성이 반드시 존재해야 한다. */}
-                    <span>평점 {movie.vote_average.toFixed(1)}</span>
-                  </Info>
-                </Box>
+                <MovieBox key={movie.id} {...movie} />
               ))}
           </Row>
         </AnimatePresence>
@@ -265,6 +177,6 @@ export default function Slider({ title, pathKey }: ISliderProps) {
           ></path>
         </svg>
       </NextBtn>
-    </Wrapper>
+    </Container>
   );
 }
