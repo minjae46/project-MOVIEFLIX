@@ -115,7 +115,6 @@ export default function Slider({ title, pathKey }: ISliderProps) {
       setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
     }
   };
-
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (

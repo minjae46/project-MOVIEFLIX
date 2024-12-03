@@ -56,7 +56,8 @@ body {
 background-color: rgba(0,0,0,1);
 font-family: sans-serif;
 color: white;
-overflow-x: hidden;
+overflow-x: hidden
+
 }
 
 a {
