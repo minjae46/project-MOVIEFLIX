@@ -22,7 +22,7 @@ const Modal = styled(motion.div)`
   z-index: 10;
   background-color: black;
   border-radius: 10px;
-  overflow-y: hidden;
+  overflow-y: scroll;
 `;
 
 const Overlay = styled(motion.div)`
@@ -64,7 +64,7 @@ const Info = styled.div`
 const Description = styled.p`
   font-size: 16px;
   opacity: 0.9;
-  line-height: 1.3;
+  line-height: 1.4;
   margin-bottom: 15px;
   /* text-overflow: ellipsis;
   display: -webkit-box;

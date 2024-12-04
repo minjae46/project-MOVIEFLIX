@@ -22,7 +22,6 @@ const Box = styled(motion.div)<{ bgimg: string }>`
 
 const Info = styled(motion.div)`
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%);
-
   width: 100%;
   opacity: 0;
   position: absolute;
@@ -85,6 +84,9 @@ const infoVariants = {
     opacity: 1,
     transition: {
       delay: 0.6,
+      // 박스보다 늦게 나타나야 한다. 얘가 absolute이고 가장 가까운 position 부모가 row라서, width 100%를 주면 hover 전에는 width가 row랑 같아진다.
+      // 그래서 박스랑 동시에 나타나게 되면 애니메이션 전에 살짝 전체 너비가 보이게 된다. 이를 방지하기 위해, 박스 width가 결정된 후 애니메이션이 실행되야 한다.
+      // 이 때문에 박스에 relative를 주게 되면, 모달 애니메이션이 어색하게 작동하게 되므로 안 된다.
       duration: 0.2,
       type: "tween",
     },

@@ -62,7 +62,7 @@ const Indicator = styled(motion.div)`
   background-color: red;
 `;
 
-const Search = styled.span`
+const Search = styled.form`
   display: flex;
   align-items: center;
   position: relative;
@@ -155,18 +155,18 @@ export default function Header() {
         <Menu>
           <Item>
             <Link to="/">
-              Home {location.pathname === "/" && <Indicator layoutId="dot" />}
+              홈 {location.pathname === "/" && <Indicator layoutId="dot" />}
             </Link>
           </Item>
           <Item>
             <Link to="/popular">
-              Popular
+              대세 인기작
               {location.pathname === "/popular" && <Indicator layoutId="dot" />}
             </Link>
           </Item>
           <Item>
             <Link to="/nowplaying">
-              Now Playing
+              현재 상영작
               {location.pathname === "/nowplaying" && (
                 <Indicator layoutId="dot" />
               )}
@@ -174,7 +174,7 @@ export default function Header() {
           </Item>
           <Item>
             <Link to="/upcoming">
-              Upcoming
+              개봉 예정작
               {location.pathname === "/upcoming" && (
                 <Indicator layoutId="dot" />
               )}
@@ -182,7 +182,7 @@ export default function Header() {
           </Item>
           <Item>
             <Link to="/toprated">
-              Top Rated
+              최고 평점작
               {location.pathname === "/toprated" && (
                 <Indicator layoutId="dot" />
               )}
