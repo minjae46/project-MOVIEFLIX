@@ -10,11 +10,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  height: 28vw;
+  height: 29vw;
 `;
 
 const Title = styled.h2`
-  font-size: 20px;
+  font-size: 21px;
 `;
 
 const Loader = styled.div`
@@ -23,7 +23,7 @@ const Loader = styled.div`
 
 const Row = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
@@ -84,7 +84,7 @@ const rowVariants = {
   }),
 };
 
-const offset = 7;
+const offset = 6;
 
 export default function Slider({ title, pathKey }: ISliderProps) {
   const { data, isLoading } = useQuery<IGetMoviesResult>(

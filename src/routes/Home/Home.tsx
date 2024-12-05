@@ -22,13 +22,14 @@ const Banner = styled.div<{ backdropimg: string }>`
 const Title = styled.h1`
   width: 35%;
   margin-bottom: 20px;
-  font-size: 50px;
+  font-size: 55px;
+  font-weight: 600;
 `;
 
 const Overview = styled.p`
   width: 30%;
-  font-size: 18px;
-  line-height: 1.3;
+  font-size: 17px;
+  line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

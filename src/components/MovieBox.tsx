@@ -20,31 +20,45 @@ const Box = styled(motion.div)<{ bgimg: string }>`
   }
 `;
 
-const Info = styled(motion.div)`
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%);
+const InfoBox = styled(motion.div)`
   width: 100%;
-  opacity: 0;
-  position: absolute;
-  bottom: -10%;
-  border-radius: 5px;
-  padding: 20px 10px 10px 10px;
   display: flex;
   flex-direction: column;
-  h1 {
-    font-size: 15px;
-    font-weight: 800;
-    margin-bottom: 12px;
-    line-height: 1.2;
+  padding: 10px;
+  position: relative;
+  top: 80%;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  opacity: 0;
+  background-color: black;
+`;
+
+const Title = styled.h1`
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+`;
+
+const Info = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Text = styled.div`
+  display: flex;
+  flex-direction: column;
+  span {
+    font-size: 11px;
+    opacity: 0.6;
   }
 `;
 
-const InfoBox = styled.div`
-  display: flex;
-  justify-content: space-between;
+const MoreBtn = styled.div`
+  width: 25px;
   svg {
-    width: 30px;
     fill: white;
-    opacity: 0.5;
+    opacity: 0.6;
     &:hover {
       opacity: 1;
       cursor: pointer;
@@ -53,22 +67,14 @@ const InfoBox = styled.div`
   }
 `;
 
-const InfoText = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  span {
-    font-size: 12px;
-  }
-`;
-
 const boxVariants = {
   normal: {
     scale: 1,
   },
   hover: {
+    zIndex: 88,
     cursor: "default",
-    scale: 1.3,
+    scale: 1.5,
     y: -50,
     transition: {
       delay: 0.5,
@@ -83,11 +89,8 @@ const infoVariants = {
     scale: 1,
     opacity: 1,
     transition: {
-      delay: 0.6,
-      // 박스보다 늦게 나타나야 한다. 얘가 absolute이고 가장 가까운 position 부모가 row라서, width 100%를 주면 hover 전에는 width가 row랑 같아진다.
-      // 그래서 박스랑 동시에 나타나게 되면 애니메이션 전에 살짝 전체 너비가 보이게 된다. 이를 방지하기 위해, 박스 width가 결정된 후 애니메이션이 실행되야 한다.
-      // 이 때문에 박스에 relative를 주게 되면, 모달 애니메이션이 어색하게 작동하게 되므로 안 된다.
-      duration: 0.2,
+      delay: 0.5,
+      duration: 0.3,
       type: "tween",
     },
   },
@@ -108,9 +111,9 @@ export default function MovieBox({
   title,
   poster_path,
   release_date,
-  vote_average,
 }: IMovieBoxProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleOpenClick = () => {
     setIsModalOpen(true);
   };
@@ -126,40 +129,39 @@ export default function MovieBox({
         variants={boxVariants}
         initial="normal"
         whileHover="hover"
-        exit="exit"
         transition={{ type: "tween" }}
         bgimg={makeImagePath(poster_path)}
       >
-        <Info variants={infoVariants}>
-          <h1>{title}</h1>
-          <InfoBox>
-            <InfoText>
-              <span>{makeReleaseDate(release_date)}</span>
+        <InfoBox variants={infoVariants}>
+          <Title>{title}</Title>
+          <Info>
+            <Text>
+              <span>{makeReleaseDate(release_date)} 개봉</span>
               {/* 참고로 React Elements를 제외한 객체(Date 등)는 리액트 노드의 자식으로 유효하지 않다.
                 즉, <div>{여기에 객체 바로 못 넣는다}</div>
                 객체를 직접 넣기 위해선 key, type, props 속성이 반드시 존재해야 한다. */}
-              <span>평점 {vote_average.toFixed(1)}</span>
-            </InfoText>
-            <svg
-              onClick={handleOpenClick}
-              data-slot="icon"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                clipRule="evenodd"
-                fillRule="evenodd"
-                d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
-              ></path>
-            </svg>
-          </InfoBox>
-        </Info>
+            </Text>
+            <MoreBtn onClick={handleOpenClick}>
+              <svg
+                data-slot="icon"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                ></path>
+              </svg>
+            </MoreBtn>
+          </Info>
+        </InfoBox>
       </Box>
       <AnimatePresence>
         {isModalOpen && (
           <MovieModal
-            onCloseClick={handleCloseClick}
+            handleCloseClick={handleCloseClick}
             id={id}
             sliderId={sliderId}
             title={title}

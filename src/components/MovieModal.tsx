@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovie, IMovieDetail } from "../api";
-import { makeImagePath, makeReleaseDate } from "../utils";
+import { makeImagePath, makeReleaseDate, makeRuntimeToHour } from "../utils";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -13,12 +13,12 @@ const Wrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 100;
 `;
 
 const Modal = styled(motion.div)`
-  width: 50vw;
-  height: 80vh;
+  width: 60vw;
+  height: 95vh;
   z-index: 10;
   background-color: black;
   border-radius: 10px;
@@ -34,7 +34,8 @@ const Overlay = styled(motion.div)`
 `;
 
 const Header = styled.div<{ backdropimg: string }>`
-  height: 55%;
+  height: 65%;
+  padding: 10px;
   display: flex;
   justify-content: flex-end;
   background-image: linear-gradient(to top, black, transparent),
@@ -42,22 +43,45 @@ const Header = styled.div<{ backdropimg: string }>`
   background-size: cover;
 `;
 
+const CloseBtn = styled.div`
+  width: 35px;
+  cursor: pointer;
+  svg {
+    fill: white;
+    opacity: 0.6;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+    transition: 0.4s;
+  }
+`;
+
 const Content = styled.div`
-  padding: 0 20px;
+  padding: 0 30px;
 `;
 
 const Title = styled.h1`
   font-size: 40px;
   font-weight: 700;
-  margin-bottom: 15px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
 const Info = styled.div`
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   span {
-    margin-right: 5px;
     font-size: 16px;
     opacity: 0.6;
+    margin-bottom: 5px;
   }
 `;
 
@@ -79,18 +103,17 @@ const Genres = styled.ul`
     font-size: 20px;
     font-weight: 600;
   }
-  margin-bottom: 15px;
 `;
 
 interface IMovieModalProps {
-  onCloseClick: () => void;
+  handleCloseClick: () => void;
   id: number;
   sliderId: string;
   title: string;
 }
 
 export default function MovieModal({
-  onCloseClick,
+  handleCloseClick,
   id,
   sliderId,
   title,
@@ -102,23 +125,46 @@ export default function MovieModal({
   return (
     <Wrapper>
       <Modal layoutId={`${sliderId}${id}`}>
-        <Header backdropimg={makeImagePath(data?.backdrop_path || "")}></Header>
+        <Header backdropimg={makeImagePath(data?.backdrop_path || "")}>
+          <CloseBtn onClick={handleCloseClick}>
+            <svg
+              data-slot="icon"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                clipRule="evenodd"
+                fillRule="evenodd"
+                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+              ></path>
+            </svg>
+          </CloseBtn>
+        </Header>
         <Content>
           <Title>{title}</Title>
-          <Info>
-            <span>{makeReleaseDate(data?.release_date || "")}</span>
-            <span>{data?.runtime}</span>
-          </Info>
-          <Genres>
-            {data?.genres.map((genre) => (
-              <li key={genre.id}>{genre.name}</li>
-            ))}
-          </Genres>
+          <InfoBox>
+            <Info>
+              <span>{makeReleaseDate(data?.release_date || "")} 개봉</span>
+              <span>{makeRuntimeToHour(data?.runtime || 0)}</span>
+              <span>
+                평점
+                {data?.vote_average === 0
+                  ? " 없음"
+                  : ` ${data?.vote_average.toFixed(1)}`}
+              </span>
+            </Info>
+            <Genres>
+              {data?.genres.map((genre) => (
+                <li key={genre.id}>{genre.name}</li>
+              ))}
+            </Genres>
+          </InfoBox>
           <Description>{data?.overview}</Description>
         </Content>
       </Modal>
       <Overlay
-        onClick={onCloseClick}
+        onClick={handleCloseClick}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />

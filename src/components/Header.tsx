@@ -13,7 +13,7 @@ const Nav = styled(motion.nav)`
   position: fixed;
   top: 0;
   font-size: 14px;
-  z-index: 90;
+  z-index: 99;
 `;
 
 const Col = styled.div`
@@ -44,6 +44,7 @@ const Item = styled.li`
   margin-right: 20px;
   position: relative;
   color: white;
+  font-size: 14px;
   &:hover {
     color: rgba(255, 255, 255, 0.7);
   }
