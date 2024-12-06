@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
+import { ScrollToTop } from "./utils";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -84,8 +85,6 @@ svg {
 ::-webkit-scrollbar {
   display: none;
 }
-
-
 `;
 
 function App() {
@@ -94,6 +93,7 @@ function App() {
       <GlobalStyle />
       <Header />
       <Outlet />
+      <ScrollToTop />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
-import { getMovie, IMovieDetail } from "../api";
+import { getMovieDetail, IGetMovieDetailResult } from "../api";
 import { makeImagePath, makeReleaseDate, makeRuntimeToHour } from "../utils";
 
 const Wrapper = styled(motion.div)`
@@ -17,8 +17,8 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Modal = styled(motion.div)`
-  width: 60vw;
-  height: 95vh;
+  width: 55vw;
+  height: 90vh;
   z-index: 10;
   background-color: black;
   border-radius: 10px;
@@ -108,23 +108,23 @@ const Genres = styled.ul`
 interface IMovieModalProps {
   handleCloseClick: () => void;
   id: number;
-  sliderId: string;
+  layoutId: string;
   title: string;
 }
 
 export default function MovieModal({
   handleCloseClick,
   id,
-  sliderId,
+  layoutId,
   title,
 }: IMovieModalProps) {
-  const { data } = useQuery<IMovieDetail>(["movie", id], () =>
-    getMovie(id.toString())
+  const { data } = useQuery<IGetMovieDetailResult>(["movie", id], () =>
+    getMovieDetail(id.toString())
   );
 
   return (
     <Wrapper>
-      <Modal layoutId={`${sliderId}${id}`}>
+      <Modal layoutId={`${layoutId} + ${id}`}>
         <Header backdropimg={makeImagePath(data?.backdrop_path || "")}>
           <CloseBtn onClick={handleCloseClick}>
             <svg

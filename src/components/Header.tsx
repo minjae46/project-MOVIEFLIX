@@ -8,7 +8,7 @@ const Nav = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 70px;
+  height: 10vh;
   padding: 20px 60px;
   position: fixed;
   top: 0;
@@ -37,30 +37,18 @@ const Menu = styled.ul`
   align-items: center;
 `;
 
-const Item = styled.li`
+const Item = styled.li<{ isSelected: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-right: 20px;
   position: relative;
-  color: white;
-  font-size: 14px;
+  opacity: ${(props) => (props.isSelected ? 1 : 0.6)};
+  font-size: 15px;
   &:hover {
-    color: rgba(255, 255, 255, 0.7);
+    opacity: 1;
   }
-  transition: color 0.4s ease-in-out;
-`;
-
-const Indicator = styled(motion.div)`
-  width: 5px;
-  height: 5px;
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 2.5px;
-  background-color: red;
+  transition: opacity 0.3s ease-in-out;
 `;
 
 const Search = styled.form`
@@ -87,7 +75,7 @@ const Input = styled(motion.input)`
 `;
 
 export default function Header() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollDown, setScrollDown] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -154,40 +142,20 @@ export default function Header() {
           />
         </Logo>
         <Menu>
-          <Item>
-            <Link to="/">
-              홈 {location.pathname === "/" && <Indicator layoutId="dot" />}
-            </Link>
+          <Item isSelected={pathname === "/" && true}>
+            <Link to="/">홈</Link>
           </Item>
-          <Item>
-            <Link to="/popular">
-              대세 인기작
-              {location.pathname === "/popular" && <Indicator layoutId="dot" />}
-            </Link>
+          <Item isSelected={pathname === "/popular" && true}>
+            <Link to="/popular">대세 인기작</Link>
           </Item>
-          <Item>
-            <Link to="/nowplaying">
-              현재 상영작
-              {location.pathname === "/nowplaying" && (
-                <Indicator layoutId="dot" />
-              )}
-            </Link>
+          <Item isSelected={pathname === "/nowplaying" && true}>
+            <Link to="/nowplaying">현재 상영작</Link>
           </Item>
-          <Item>
-            <Link to="/upcoming">
-              개봉 예정작
-              {location.pathname === "/upcoming" && (
-                <Indicator layoutId="dot" />
-              )}
-            </Link>
+          <Item isSelected={pathname === "/upcoming" && true}>
+            <Link to="/upcoming">개봉 예정작</Link>
           </Item>
-          <Item>
-            <Link to="/toprated">
-              최고 평점작
-              {location.pathname === "/toprated" && (
-                <Indicator layoutId="dot" />
-              )}
-            </Link>
+          <Item isSelected={pathname === "/toprated" && true}>
+            <Link to="/toprated">최고 평점작</Link>
           </Item>
         </Menu>
       </Col>

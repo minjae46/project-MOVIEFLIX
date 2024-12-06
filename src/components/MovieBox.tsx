@@ -12,10 +12,12 @@ const Box = styled(motion.div)<{ bgimg: string }>`
   background-position: center center;
   border-radius: 5px;
   cursor: pointer;
-  &:first-child {
+
+  &:first-child,
+  &:nth-child(6n + 1) {
     transform-origin: center left;
   }
-  &:last-child {
+  &:nth-child(6n) {
     transform-origin: center right;
   }
 `;
@@ -68,11 +70,16 @@ const MoreBtn = styled.div`
 `;
 
 const boxVariants = {
-  normal: {
+  initial: {
+    scale: 0.9,
+    opacity: 0,
+  },
+  animate: {
     scale: 1,
+    opacity: 1,
   },
   hover: {
-    zIndex: 88,
+    zIndex: 100,
     cursor: "default",
     scale: 1.5,
     y: -50,
@@ -102,11 +109,11 @@ interface IMovieBoxProps {
   poster_path: string;
   release_date: string;
   vote_average: number;
-  sliderId: string;
+  layoutId: string;
 }
 
 export default function MovieBox({
-  sliderId,
+  layoutId,
   id,
   title,
   poster_path,
@@ -125,11 +132,12 @@ export default function MovieBox({
     <>
       <Box
         key={id}
-        layoutId={`${sliderId}${id}`}
+        layoutId={`${layoutId} + ${id}`}
         variants={boxVariants}
-        initial="normal"
+        initial="initial"
+        animate="animate"
         whileHover="hover"
-        transition={{ type: "tween" }}
+        transition={{ type: "tween", duration: 0.3 }}
         bgimg={makeImagePath(poster_path)}
       >
         <InfoBox variants={infoVariants}>
@@ -163,7 +171,7 @@ export default function MovieBox({
           <MovieModal
             handleCloseClick={handleCloseClick}
             id={id}
-            sliderId={sliderId}
+            layoutId={layoutId}
             title={title}
           />
         )}

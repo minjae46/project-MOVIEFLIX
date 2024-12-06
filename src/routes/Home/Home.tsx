@@ -43,7 +43,7 @@ const SliderContainer = styled.div`
   top: 90vh;
 `;
 
-let sliderList = [
+const sliderList = [
   { title: "최고 인기 영화를 만나보세요", pathKey: "popular" },
   { title: "현재 상영작을 만나보세요", pathKey: "now_playing" },
   { title: "기다림이 아깝지 않은 영화들", pathKey: "upcoming" },

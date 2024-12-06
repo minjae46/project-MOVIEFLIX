@@ -13,7 +13,7 @@ export function getMovies(pathKey: string) {
   ).then((response) => response.json());
 }
 
-export function getMovie(id: string) {
+export function getMovieDetail(id: string) {
   return fetch(
     `${BASE_PATH}/movie/${id}?api_key=${API_KEY}&language=ko-KR`
   ).then((response) => response.json());
@@ -71,7 +71,7 @@ export interface IMovie {
   vote_count: number;
 }
 
-export interface IMovieDetail {
+export interface IGetMovieDetailResult {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: {

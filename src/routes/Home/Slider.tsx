@@ -10,7 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  height: 29vw;
+  height: 30vw;
 `;
 
 const Title = styled.h2`
@@ -140,7 +140,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
             {data?.results
               .slice(offset * index, offset * index + offset)
               .map((movie) => (
-                <MovieBox key={movie.id} {...movie} sliderId={pathKey} />
+                <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
               ))}
           </Row>
         </AnimatePresence>
