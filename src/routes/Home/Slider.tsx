@@ -9,8 +9,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   height: 30vw;
+  position: relative;
 `;
 
 const Title = styled.h2`
@@ -25,23 +25,23 @@ const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
+  width: 90vw;
   position: absolute;
   // animatePresence에서는 absolute 설정해주지 않으면 컴포넌트가 튄다
   top: 35px;
-  width: 90vw;
 `;
 
 const PrevBtn = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  width: 5vw;
   position: absolute;
   left: 0;
   top: 40px;
-  width: 5vw;
   aspect-ratio: 1 / 3.5;
   opacity: 0.3;
+  cursor: pointer;
   &:hover {
     opacity: 1;
     color: white;
@@ -53,13 +53,13 @@ const NextBtn = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  width: 5vw;
   position: absolute;
   right: 0;
   top: 40px;
-  width: 5vw;
   aspect-ratio: 1 / 3.5;
   opacity: 0.3;
+  cursor: pointer;
   &:hover {
     opacity: 1;
     color: white;

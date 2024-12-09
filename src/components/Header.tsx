@@ -44,7 +44,7 @@ const Item = styled.li<{ isSelected: boolean }>`
   margin-right: 20px;
   position: relative;
   opacity: ${(props) => (props.isSelected ? 1 : 0.6)};
-  font-size: 15px;
+  font-size: 16px;
   &:hover {
     opacity: 1;
   }
@@ -58,6 +58,9 @@ const Search = styled.form`
   color: white;
   svg {
     height: 25px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -186,7 +189,7 @@ export default function Header() {
               scaleX: searchOpen ? 1 : 0,
             }}
             transition={{ type: "linear" }}
-            placeholder="Search..."
+            placeholder="제목으로 검색해보세요"
           />
         </Search>
       </Col>

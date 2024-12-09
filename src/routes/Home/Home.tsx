@@ -5,8 +5,6 @@ import { makeImagePath } from "../../utils";
 import Loader from "../../components/Loader";
 import Slider from "./Slider";
 
-const Wrapper = styled.div``;
-
 const Banner = styled.div<{ backdropimg: string }>`
   width: 100vw;
   height: 100vh;
@@ -57,7 +55,7 @@ export default function Home() {
   );
 
   return (
-    <Wrapper>
+    <>
       {isLoading ? (
         <Loader />
       ) : (
@@ -79,6 +77,6 @@ export default function Home() {
           </SliderContainer>
         </>
       )}
-    </Wrapper>
+    </>
   );
 }

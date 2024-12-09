@@ -54,13 +54,11 @@ box-sizing: border-box;
 margin: 0;
 }
 body {
-background-color: rgba(0,0,0,1);
+background-color: #000000;
 font-family: sans-serif;
-color: white;
+color: #FFFFFF;
 overflow-x: hidden
-
 }
-
 a {
   text-decoration:none;
   color:inherit;

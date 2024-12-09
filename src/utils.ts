@@ -5,12 +5,12 @@ export function makeImagePath(id: string, format?: string) {
   return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
 }
 
-export function makeReleaseDate(date: string) {
-  const formatDate = new Date(date);
+export function makeReleaseDate(fullDate: string) {
+  const formatDate = new Date(fullDate);
   const year = formatDate.getFullYear();
   const month = formatDate.getMonth() + 1;
-  const day = formatDate.getDate();
-  return `${year}년 ${month}월 ${day}일`;
+  const date = formatDate.getDate();
+  return `${year}년 ${month}월 ${date}일`;
 }
 
 export function makeRuntimeToHour(runtime: number) {

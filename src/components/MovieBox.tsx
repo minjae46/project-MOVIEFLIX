@@ -12,7 +12,6 @@ const Box = styled(motion.div)<{ bgimg: string }>`
   background-position: center center;
   border-radius: 5px;
   cursor: pointer;
-
   &:first-child,
   &:nth-child(6n + 1) {
     transform-origin: center left;
@@ -29,10 +28,10 @@ const InfoBox = styled(motion.div)`
   padding: 10px;
   position: relative;
   top: 80%;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
   opacity: 0;
   background-color: black;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 `;
 
 const Title = styled.h1`
@@ -84,7 +83,7 @@ const boxVariants = {
     scale: 1.5,
     y: -50,
     transition: {
-      delay: 0.5,
+      delay: 0.4,
       duration: 0.3,
       type: "tween",
     },
@@ -96,7 +95,7 @@ const infoVariants = {
     scale: 1,
     opacity: 1,
     transition: {
-      delay: 0.5,
+      delay: 0.4,
       duration: 0.3,
       type: "tween",
     },
