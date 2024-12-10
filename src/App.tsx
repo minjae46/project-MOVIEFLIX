@@ -87,12 +87,12 @@ svg {
 
 function App() {
   return (
-    <div>
+    <>
       <GlobalStyle />
       <Header />
-      <Outlet />
       <ScrollToTop />
-    </div>
+      <Outlet />
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovieDetail, IGetMovieDetailResult } from "../api";
 import { makeImagePath, makeReleaseDate, makeRuntimeToHour } from "../utils";
+import Loader from "./Loader";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -118,8 +119,9 @@ export default function MovieModal({
   layoutId,
   title,
 }: IMovieModalProps) {
-  const { data } = useQuery<IGetMovieDetailResult>(["movie", id], () =>
-    getMovieDetail(id.toString())
+  const { data, isLoading } = useQuery<IGetMovieDetailResult>(
+    ["movie", id],
+    () => getMovieDetail(id.toString())
   );
 
   return (
@@ -143,24 +145,30 @@ export default function MovieModal({
         </Header>
         <Content>
           <Title>{title}</Title>
-          <InfoBox>
-            <Info>
-              <span>{makeReleaseDate(data?.release_date || "")} 개봉</span>
-              <span>{makeRuntimeToHour(data?.runtime || 0)}</span>
-              <span>
-                평점
-                {data?.vote_average === 0
-                  ? " 없음"
-                  : ` ${data?.vote_average.toFixed(1)}`}
-              </span>
-            </Info>
-            <Genres>
-              {data?.genres.map((genre) => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </Genres>
-          </InfoBox>
-          <Description>{data?.overview}</Description>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <InfoBox>
+                <Info>
+                  <span>{makeReleaseDate(data?.release_date || "")} 개봉</span>
+                  <span>{makeRuntimeToHour(data?.runtime || 0)}</span>
+                  <span>
+                    평점
+                    {data?.vote_average === 0
+                      ? " 없음"
+                      : ` ${data?.vote_average.toFixed(1)}`}
+                  </span>
+                </Info>
+                <Genres>
+                  {data?.genres.map((genre) => (
+                    <li key={genre.id}>{genre.name}</li>
+                  ))}
+                </Genres>
+              </InfoBox>
+              <Description>{data?.overview}</Description>
+            </>
+          )}
         </Content>
       </Modal>
       <Overlay
@@ -168,7 +176,7 @@ export default function MovieModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />
-      {/* 오버레이를 분리하는 이유 : 오버레이 클릭시 모달 창 닫힘 기능을 구현하기 위함.  */}
+      {/* 오버레이 컴포넌트를 분리하는 이유 : 오버레이 클릭시 모달 창 닫힘 기능을 구현하기 위함.  */}
     </Wrapper>
   );
 }

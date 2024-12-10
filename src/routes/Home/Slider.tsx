@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 import MovieBox from "../../components/MovieBox";
+import Loader from "../../components/Loader";
 
 const Container = styled.div`
   display: flex;
@@ -15,10 +16,6 @@ const Container = styled.div`
 
 const Title = styled.h2`
   font-size: 21px;
-`;
-
-const Loader = styled.div`
-  padding-top: 100px;
 `;
 
 const Row = styled(motion.div)`
@@ -121,7 +118,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
     <Container>
       <Title>{title}</Title>
       {isLoading ? (
-        <Loader>Loading...</Loader>
+        <Loader />
       ) : (
         <AnimatePresence
           initial={false}
