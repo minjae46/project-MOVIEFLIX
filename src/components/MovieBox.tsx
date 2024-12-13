@@ -108,11 +108,11 @@ interface IMovieBoxProps {
   poster_path: string;
   release_date: string;
   vote_average: number;
-  layoutId: string;
+  layoutId?: string;
 }
 
 export default function MovieBox({
-  layoutId,
+  layoutId = "",
   id,
   title,
   poster_path,
@@ -131,7 +131,7 @@ export default function MovieBox({
     <>
       <Box
         key={id}
-        layoutId={`${layoutId} + ${id}`}
+        layoutId={layoutId + id}
         variants={boxVariants}
         initial="initial"
         animate="animate"
@@ -169,8 +169,8 @@ export default function MovieBox({
         {isModalOpen && (
           <MovieModal
             handleCloseClick={handleCloseClick}
-            id={id}
             layoutId={layoutId}
+            id={id}
             title={title}
           />
         )}

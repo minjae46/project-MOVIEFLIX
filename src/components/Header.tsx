@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -37,13 +42,13 @@ const Menu = styled.ul`
   align-items: center;
 `;
 
-const Item = styled.li<{ isSelected: boolean }>`
+const Item = styled.li<{ selected: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-right: 20px;
   position: relative;
-  opacity: ${(props) => (props.isSelected ? 1 : 0.6)};
+  opacity: ${(props) => (props.selected ? 1 : 0.6)};
   font-size: 16px;
   &:hover {
     opacity: 1;
@@ -51,13 +56,13 @@ const Item = styled.li<{ isSelected: boolean }>`
   transition: opacity 0.3s ease-in-out;
 `;
 
-const Search = styled.form`
+const Search = styled.div`
   display: flex;
   align-items: center;
   position: relative;
   color: white;
   svg {
-    height: 25px;
+    width: 28px;
     &:hover {
       cursor: pointer;
     }
@@ -69,11 +74,12 @@ const Input = styled(motion.input)`
   position: absolute;
   right: 0;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 45px;
   transform-origin: right center;
-  background-color: rgba(0, 0, 0, 1);
-  color: rgba(255, 255, 255, 1);
-  border: 0.5px solid rgba(255, 255, 255, 1);
+  background-color: black;
+  font-size: 16px;
+  color: white;
+  border: 0.5px solid white;
   z-index: -1;
 `;
 
@@ -82,6 +88,9 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollDown, setScrollDown] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword");
 
   // useScroll, useTransform 훅 사용하는 방법
   // const { scrollY } = useScroll();
@@ -104,11 +113,16 @@ export default function Header() {
 
   const toggleSearch = () => {
     setSearchOpen((prev) => !prev);
+    searchRef.current?.focus();
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchOpen && !searchRef?.current?.contains(event.target as Node))
+      if (
+        searchOpen &&
+        !keyword &&
+        !searchRef?.current?.contains(event.target as Node)
+      )
         setSearchOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -116,6 +130,21 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   });
+
+  console.log("키워드 있어?", keyword);
+  console.log("현재 패스", pathname);
+  console.log("열렸어?", searchOpen);
+
+  useEffect(() => {
+    if (keyword) setSearchOpen(true);
+  }, [keyword]); // 새로고침해도 url에 키워드가 있으면 검색창 열린 상태로 있게 하기
+
+  const handleKeword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const keyword = event.target.value;
+    if (keyword) {
+      navigate(`/search?keyword=${keyword}`);
+    } else navigate(`/`);
+  };
 
   return (
     <Nav
@@ -145,19 +174,19 @@ export default function Header() {
           />
         </Logo>
         <Menu>
-          <Item isSelected={pathname === "/" && true}>
+          <Item selected={pathname === "/" && true}>
             <Link to="/">홈</Link>
           </Item>
-          <Item isSelected={pathname === "/popular" && true}>
+          <Item selected={pathname === "/popular" && true}>
             <Link to="/popular">대세 인기작</Link>
           </Item>
-          <Item isSelected={pathname === "/nowplaying" && true}>
+          <Item selected={pathname === "/nowplaying" && true}>
             <Link to="/nowplaying">현재 상영작</Link>
           </Item>
-          <Item isSelected={pathname === "/upcoming" && true}>
+          <Item selected={pathname === "/upcoming" && true}>
             <Link to="/upcoming">개봉 예정작</Link>
           </Item>
-          <Item isSelected={pathname === "/toprated" && true}>
+          <Item selected={pathname === "/toprated" && true}>
             <Link to="/toprated">최고 평점작</Link>
           </Item>
         </Menu>
@@ -167,7 +196,7 @@ export default function Header() {
           <motion.svg
             onClick={toggleSearch}
             initial={{ scale: 1 }}
-            animate={{ x: searchOpen ? -240 : 0 }}
+            animate={{ x: searchOpen ? -235 : 0 }}
             whileTap={{ scale: 1.5 }}
             transition={{ type: "linear" }}
             fill="currentColor"
@@ -190,6 +219,8 @@ export default function Header() {
             }}
             transition={{ type: "linear" }}
             placeholder="제목으로 검색해보세요"
+            onChange={handleKeword}
+            value={keyword || ""} // 새로고침 시 input에 이전 값 표시하기 위해 url에서 가져오기
           />
         </Search>
       </Col>

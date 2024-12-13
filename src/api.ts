@@ -44,10 +44,10 @@ export function getTopRatedMovies() {
 }
 
 export interface IGetMoviesResult {
-  dates: {
-    maximum: string;
-    minimum: string;
-  };
+  // dates: {
+  //   maximum: string;
+  //   minimum: string;
+  // };
   page: number;
   results: IMovie[];
   total_pages: number;

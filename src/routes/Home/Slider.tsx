@@ -64,11 +64,6 @@ const NextBtn = styled.span`
   }
 `;
 
-interface ISliderProps {
-  title: string;
-  pathKey: string;
-}
-
 const rowVariants = {
   hidden: (back: boolean) => ({
     x: back ? -window.innerWidth - 10 : window.innerWidth + 10,
@@ -83,9 +78,14 @@ const rowVariants = {
 
 const offset = 6;
 
+interface ISliderProps {
+  title: string;
+  pathKey: string;
+}
+
 export default function Slider({ title, pathKey }: ISliderProps) {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", `${pathKey}`],
+    ["movies", pathKey],
     () => getMovies(pathKey)
   );
   const [index, setIndex] = useState(0);

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export function makeImagePath(id: string, format?: string) {
-  return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
+export function makeImagePath(path: string) {
+  return `https://image.tmdb.org/t/p/original/${path}`;
 }
 
 export function makeReleaseDate(fullDate: string) {

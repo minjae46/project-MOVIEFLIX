@@ -109,14 +109,14 @@ const Genres = styled.ul`
 interface IMovieModalProps {
   handleCloseClick: () => void;
   id: number;
-  layoutId: string;
+  layoutId?: string;
   title: string;
 }
 
 export default function MovieModal({
   handleCloseClick,
   id,
-  layoutId,
+  layoutId = "",
   title,
 }: IMovieModalProps) {
   const { data, isLoading } = useQuery<IGetMovieDetailResult>(
@@ -126,7 +126,7 @@ export default function MovieModal({
 
   return (
     <Wrapper>
-      <Modal layoutId={`${layoutId} + ${id}`}>
+      <Modal layoutId={layoutId + id}>
         <Header backdropimg={makeImagePath(data?.backdrop_path || "")}>
           <CloseBtn onClick={handleCloseClick}>
             <svg

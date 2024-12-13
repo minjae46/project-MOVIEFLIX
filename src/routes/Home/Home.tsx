@@ -50,7 +50,7 @@ const sliderList = [
 
 export default function Home() {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", "home"],
+    ["home"],
     getPopularMovies
   );
 
