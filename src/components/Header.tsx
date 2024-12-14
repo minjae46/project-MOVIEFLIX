@@ -119,8 +119,7 @@ export default function Header() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        searchOpen &&
-        !keyword &&
+        searchRef.current &&
         !searchRef?.current?.contains(event.target as Node)
       )
         setSearchOpen(false);
@@ -129,21 +128,14 @@ export default function Header() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
-
-  console.log("키워드 있어?", keyword);
-  console.log("현재 패스", pathname);
-  console.log("열렸어?", searchOpen);
-
-  useEffect(() => {
-    if (keyword) setSearchOpen(true);
-  }, [keyword]); // 새로고침해도 url에 키워드가 있으면 검색창 열린 상태로 있게 하기
+  }, [searchRef]);
 
   const handleKeword = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;
-    if (keyword) {
-      navigate(`/search?keyword=${keyword}`);
-    } else navigate(`/`);
+    navigate(`/search?keyword=${keyword}`);
+    if (!keyword) {
+      navigate(`/`);
+    }
   };
 
   return (
@@ -220,7 +212,7 @@ export default function Header() {
             transition={{ type: "linear" }}
             placeholder="제목으로 검색해보세요"
             onChange={handleKeword}
-            value={keyword || ""} // 새로고침 시 input에 이전 값 표시하기 위해 url에서 가져오기
+            value={keyword || ""} // 검색창에 검색한 키워드 게속 남아있게 하기
           />
         </Search>
       </Col>
