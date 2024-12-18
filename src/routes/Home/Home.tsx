@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getPopularMovies, IGetMoviesResult } from "../../api";
 import { makeImagePath } from "../../utils";
-import Loader from "../../components/Loader";
 import Slider from "./Slider";
 
 const Banner = styled.div<{ backdropimg: string }>`
@@ -49,34 +48,19 @@ const sliderList = [
 ];
 
 export default function Home() {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["home"],
-    getPopularMovies
-  );
+  const { data } = useQuery<IGetMoviesResult>(["home"], getPopularMovies);
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <Banner
-            backdropimg={makeImagePath(data?.results[0].backdrop_path || "")}
-          >
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
-          </Banner>
-          <SliderContainer>
-            {sliderList.map((slider, index) => (
-              <Slider
-                key={index}
-                title={slider.title}
-                pathKey={slider.pathKey}
-              />
-            ))}
-          </SliderContainer>
-        </>
-      )}
+      <Banner backdropimg={makeImagePath(data?.results[0].backdrop_path || "")}>
+        <Title>{data?.results[0].title}</Title>
+        <Overview>{data?.results[0].overview}</Overview>
+      </Banner>
+      <SliderContainer>
+        {sliderList.map((slider, index) => (
+          <Slider key={index} title={slider.title} pathKey={slider.pathKey} />
+        ))}
+      </SliderContainer>
     </>
   );
 }

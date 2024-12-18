@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../../api";
 import MovieBox from "../../components/MovieBox";
-import Loader from "../../components/Loader";
 
 const Container = styled.div`
   display: flex;
@@ -84,9 +83,8 @@ interface ISliderProps {
 }
 
 export default function Slider({ title, pathKey }: ISliderProps) {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", pathKey],
-    () => getMovies(pathKey)
+  const { data } = useQuery<IGetMoviesResult>(["movies", pathKey], () =>
+    getMovies(pathKey)
   );
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
@@ -117,31 +115,28 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   return (
     <Container>
       <Title>{title}</Title>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <AnimatePresence
-          initial={false}
-          onExitComplete={toggleLeaving}
+
+      <AnimatePresence
+        initial={false}
+        onExitComplete={toggleLeaving}
+        custom={back}
+      >
+        <Row
+          key={index}
+          variants={rowVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           custom={back}
+          transition={{ duration: 1 }}
         >
-          <Row
-            key={index}
-            variants={rowVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            custom={back}
-            transition={{ duration: 1 }}
-          >
-            {data?.results
-              .slice(offset * index, offset * index + offset)
-              .map((movie) => (
-                <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
-              ))}
-          </Row>
-        </AnimatePresence>
-      )}
+          {data?.results
+            .slice(offset * index, offset * index + offset)
+            .map((movie) => (
+              <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
+            ))}
+        </Row>
+      </AnimatePresence>
 
       <PrevBtn onClick={handlePrev}>
         <svg
