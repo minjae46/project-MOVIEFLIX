@@ -3,7 +3,7 @@ const BASE_PATH = "https://api.themoviedb.org/3";
 
 export function getSearchedMovies(keyword: string) {
   return fetch(
-    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&region=KR&query=${keyword}`
+    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}`
   ).then((response) => response.json());
 }
 

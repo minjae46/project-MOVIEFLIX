@@ -130,7 +130,6 @@ export default function MovieBox({
   return (
     <>
       <Box
-        key={id}
         layoutId={layoutId + id}
         variants={boxVariants}
         initial="initial"

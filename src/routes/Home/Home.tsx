@@ -44,7 +44,7 @@ const sliderList = [
   { title: "최고 인기 영화를 만나보세요", pathKey: "popular" },
   { title: "현재 상영작을 만나보세요", pathKey: "now_playing" },
   { title: "기다림이 아깝지 않은 영화들", pathKey: "upcoming" },
-  { title: "별점이 높은 영화들", pathKey: "top_rated" },
+  { title: "평점이 높은 영화들", pathKey: "top_rated" },
 ];
 
 export default function Home() {

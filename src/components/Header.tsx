@@ -212,7 +212,7 @@ export default function Header() {
             transition={{ type: "linear" }}
             placeholder="제목으로 검색해보세요"
             onChange={handleKeword}
-            value={keyword || ""} // 검색창에 검색한 키워드 게속 남아있게 하기
+            value={keyword || ""} // 검색창에 이전에 검색한 키워드 게속 남아있게 하기
           />
         </Search>
       </Col>

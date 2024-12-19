@@ -118,9 +118,8 @@ export default function MovieModal({
   layoutId = "",
   title,
 }: IMovieModalProps) {
-  const { data, isLoading } = useQuery<IGetMovieDetailResult>(
-    ["movie", id],
-    () => getMovieDetail(id.toString())
+  const { data } = useQuery<IGetMovieDetailResult>(["movie", id], () =>
+    getMovieDetail(id.toString())
   );
 
   return (
