@@ -10,10 +10,11 @@ const Banner = styled.div<{ backdropimg: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 60px;
+  padding: 0 5vw;
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(props) => props.backdropimg});
   background-size: cover;
+  background-position: top;
 `;
 
 const Title = styled.h1`
@@ -21,17 +22,33 @@ const Title = styled.h1`
   margin-bottom: 20px;
   font-size: 55px;
   font-weight: 600;
+
+  @media (max-width: 1024px) {
+    font-size: 50px;
+  }
+  @media (max-width: 768px) {
+    font-size: 45px;
+  }
 `;
 
 const Overview = styled.p`
   width: 30%;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+
+  @media (max-width: 1024px) {
+    width: 40%;
+    font-size: 13px;
+  }
+  @media (max-width: 768px) {
+    width: 50%;
+    font-size: 11px;
+  }
 `;
 
 const SliderContainer = styled.div`

@@ -13,8 +13,8 @@ const Nav = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 11vh;
-  padding: 20px 60px;
+  height: 10vh;
+  padding: 20px 5vw;
   position: fixed;
   top: 0;
   z-index: 99;
@@ -102,7 +102,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) setScrollDown(true);
+      if (window.scrollY > 20) setScrollDown(true);
       else setScrollDown(false);
     };
     window.addEventListener("scroll", handleScroll);
@@ -143,10 +143,9 @@ export default function Header() {
       // style={{ backgroundColor: navBgColor }}
       initial={{ backgroundColor: "rgba(0,0,0,0)" }}
       animate={{
-        backgroundColor: scrollDown ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
-        boxShadow: scrollDown ? "none" : "0 2px 5px rgba(0,0,0,0.1)",
+        backgroundColor: scrollDown ? "rgba(0,0,0,1)" : "rgba(0,0,0,0)",
       }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.5 }}
     >
       <Col>
         <Logo

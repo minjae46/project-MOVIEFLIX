@@ -122,7 +122,6 @@ export default function Slider({ title, pathKey }: ISliderProps) {
 
   const width = useWindowWidth();
   const offset = getOffset(width);
-
   const sliderH = ((width * 0.9 - (offset - 1) * 10) / offset / 27) * 50;
   // 차후 계산식 수정 필요.
 
