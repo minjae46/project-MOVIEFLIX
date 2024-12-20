@@ -13,11 +13,10 @@ const Nav = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 10vh;
+  height: 11vh;
   padding: 20px 60px;
   position: fixed;
   top: 0;
-  font-size: 14px;
   z-index: 99;
 `;
 
@@ -49,7 +48,7 @@ const Item = styled.li<{ selected: boolean }>`
   margin-right: 20px;
   position: relative;
   opacity: ${(props) => (props.selected ? 1 : 0.6)};
-  font-size: 16px;
+  font-size: 14px;
   &:hover {
     opacity: 1;
   }
