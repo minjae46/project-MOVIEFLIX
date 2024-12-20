@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
 export function makeImagePath(path: string) {
   return `https://image.tmdb.org/t/p/original/${path}`;
 }
@@ -17,12 +14,4 @@ export function makeRuntimeToHour(runtime: number) {
   const hour = Math.floor(runtime / 60);
   const minutes = runtime - hour * 60;
   return `${hour}시간 ${minutes}분`;
-}
-
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
 }

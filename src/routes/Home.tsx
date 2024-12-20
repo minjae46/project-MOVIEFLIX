@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
-import { getPopularMovies, IGetMoviesResult } from "../../api";
-import { makeImagePath } from "../../utils";
-import Slider from "./Slider";
+import { getPopularMovies, IGetMoviesResult } from "../api";
+import { makeImagePath } from "../utils/utils";
+import Slider from "../components/Slider";
 
 const Banner = styled.div<{ backdropimg: string }>`
   width: 100vw;

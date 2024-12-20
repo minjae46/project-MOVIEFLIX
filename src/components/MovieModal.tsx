@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getMovieDetail, IGetMovieDetailResult } from "../api";
-import { makeImagePath, makeReleaseDate, makeRuntimeToHour } from "../utils";
+import {
+  makeImagePath,
+  makeReleaseDate,
+  makeRuntimeToHour,
+} from "../utils/utils";
 
 const Wrapper = styled(motion.div)`
   position: fixed;

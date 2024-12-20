@@ -2,14 +2,15 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
-import { getMovies, IGetMoviesResult } from "../../api";
-import MovieBox from "../../components/MovieBox";
+import { getMovies, IGetMoviesResult } from "../api";
+import MovieBox from "./MovieBox";
+import useWindowWidth from "../hooks/useWindowWidth";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 30vw;
+  height: 500px;
   position: relative;
 `;
 
@@ -17,9 +18,9 @@ const Title = styled.h2`
   font-size: 21px;
 `;
 
-const Row = styled(motion.div)`
+const Row = styled(motion.div)<{ offset: number }>`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(${(props) => props.offset}, 1fr);
   gap: 10px;
   width: 90vw;
   position: absolute;
@@ -75,8 +76,6 @@ const rowVariants = {
   }),
 };
 
-const offset = 6;
-
 interface ISliderProps {
   title: string;
   pathKey: string;
@@ -86,9 +85,21 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const { data } = useQuery<IGetMoviesResult>(["movies", pathKey], () =>
     getMovies(pathKey)
   );
-  const [index, setIndex] = useState(0);
+
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
   const [back, setBack] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  const getOffset = (width: number) => {
+    let offset = 6;
+    if (width < 1280) offset = 5;
+    if (width < 768) offset = 4;
+    if (width <= 500) offset = 3;
+    return offset;
+  };
+
+  const width = useWindowWidth();
+  const offset = getOffset(width);
 
   const handleNext = () => {
     if (data) {
@@ -96,8 +107,10 @@ export default function Slider({ title, pathKey }: ISliderProps) {
       toggleLeaving();
       setBack(false);
       const totalMovies = data.results.length;
-      const maxIndex = Math.floor(totalMovies / offset) - 1; // page가 0에서 시작하므로 -1
-      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      const maxIndex = totalMovies - (totalMovies % offset) - offset;
+      // index가 가질 수 있는 가장 높은 숫자.
+      // offset 개수로 나누었을 때 딱 떨어지지 않는 경우를 방지하기 위한 식.
+      setIndex((prev) => (prev + offset > maxIndex ? 0 : prev + offset));
     }
   };
   const handlePrev = () => {
@@ -106,10 +119,11 @@ export default function Slider({ title, pathKey }: ISliderProps) {
       toggleLeaving();
       setBack(true);
       const totalMovies = data.results.length;
-      const maxIndex = Math.floor(totalMovies / offset) - 1;
-      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      const maxIndex = totalMovies - (totalMovies % offset) - offset;
+      setIndex((prev) => (prev - offset < 0 ? maxIndex : prev - offset));
     }
   };
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
@@ -122,19 +136,18 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         custom={back}
       >
         <Row
-          key={index}
+          key={index} // key가 바뀌어야 애니메이션 동작
           variants={rowVariants} // 부모의 variant는 자식 컴포넌트에게도 상속된다.
           initial="hidden"
           animate="visible"
           exit="exit"
           custom={back}
           transition={{ duration: 1 }}
+          offset={offset}
         >
-          {data?.results
-            .slice(offset * index, offset * index + offset)
-            .map((movie) => (
-              <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
-            ))}
+          {data?.results.slice(index, index + offset).map((movie) => (
+            <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
+          ))}
         </Row>
       </AnimatePresence>
 

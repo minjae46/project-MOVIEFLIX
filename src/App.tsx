@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
-import { ScrollToTop } from "./utils";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,

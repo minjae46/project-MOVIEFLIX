@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { makeImagePath, makeReleaseDate } from "../utils";
+import { makeImagePath, makeReleaseDate } from "../utils/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import MovieModal from "./MovieModal";
 

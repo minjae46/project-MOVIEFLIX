@@ -84,12 +84,13 @@ const Input = styled(motion.input)`
 `;
 
 export default function Header() {
-  const { pathname } = useLocation();
-  const [searchOpen, setSearchOpen] = useState(false);
   const [scrollDown, setScrollDown] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { pathname } = useLocation();
   const keyword = searchParams.get("keyword");
 
   // useScroll, useTransform 훅 사용하는 방법
