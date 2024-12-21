@@ -21,7 +21,7 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Modal = styled(motion.div)`
-  width: 55vw;
+  width: 50vw;
   height: 90vh;
   z-index: 10;
   background-color: black;
@@ -45,6 +45,7 @@ const Header = styled.div<{ backdropimg: string }>`
   background-image: linear-gradient(to top, black, transparent),
     url("${(props) => props.backdropimg}");
   background-size: cover;
+  background-position: top;
 `;
 
 const CloseBtn = styled.div`

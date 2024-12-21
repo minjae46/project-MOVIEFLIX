@@ -4,7 +4,7 @@ import { makeImagePath, makeReleaseDate } from "../utils/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import MovieModal from "./MovieModal";
 
-const Box = styled(motion.div)<{ bgimg: string }>`
+const Box = styled(motion.div)<{ bgimg: string; offset: number }>`
   aspect-ratio: 27 / 40;
   background-image: url(${(props) => props.bgimg});
   background-color: black;
@@ -13,10 +13,10 @@ const Box = styled(motion.div)<{ bgimg: string }>`
   border-radius: 5px;
   cursor: pointer;
   &:first-child,
-  &:nth-child(6n + 1) {
+  &:nth-child(${(props) => props.offset}n + 1) {
     transform-origin: center left;
   }
-  &:nth-child(6n) {
+  &:nth-child(${(props) => props.offset}n) {
     transform-origin: center right;
   }
 `;
@@ -109,6 +109,7 @@ interface IMovieBoxProps {
   release_date: string;
   vote_average: number;
   layoutId?: string;
+  offset?: number;
 }
 
 export default function MovieBox({
@@ -117,6 +118,7 @@ export default function MovieBox({
   title,
   poster_path,
   release_date,
+  offset = 0,
 }: IMovieBoxProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -137,6 +139,7 @@ export default function MovieBox({
         whileHover="hover"
         transition={{ type: "tween", duration: 0.3 }}
         bgimg={makeImagePath(poster_path)}
+        offset={offset}
       >
         <InfoBox variants={infoVariants}>
           <Title>{title}</Title>

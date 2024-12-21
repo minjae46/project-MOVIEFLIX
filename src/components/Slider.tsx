@@ -169,7 +169,12 @@ export default function Slider({ title, pathKey }: ISliderProps) {
           offset={offset}
         >
           {data?.results.slice(index, index + offset).map((movie) => (
-            <MovieBox key={movie.id} {...movie} layoutId={pathKey} />
+            <MovieBox
+              key={movie.id}
+              {...movie}
+              layoutId={pathKey}
+              offset={offset}
+            />
           ))}
         </Row>
       </AnimatePresence>
