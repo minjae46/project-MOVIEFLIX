@@ -6,11 +6,11 @@ import { getMovies, IGetMoviesResult } from "../api";
 import MovieBox from "./MovieBox";
 import useWindowWidth from "../hooks/useWindowWidth";
 
-const Container = styled.div<{ height: number }>`
+const Container = styled.div<{ movieH: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: ${(props) => props.height}px;
+  height: ${(props) => props.movieH * 1.2}px;
   position: relative;
 `;
 
@@ -50,14 +50,15 @@ const Row = styled(motion.div)<{ offset: number }>`
   top: 8%;
 `;
 
-const PrevBtn = styled.span`
+const PrevBtn = styled.span<{ movieH: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 5vw;
+  height: ${(props) => props.movieH}px;
   position: absolute;
   left: 0;
-  top: 40px;
+  top: 8%;
   aspect-ratio: 1 / 3.5;
   opacity: 0.3;
   cursor: pointer;
@@ -68,14 +69,15 @@ const PrevBtn = styled.span`
   }
 `;
 
-const NextBtn = styled.span`
+const NextBtn = styled.span<{ movieH: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 5vw;
+  height: ${(props) => props.movieH}px;
   position: absolute;
   right: 0;
-  top: 40px;
+  top: 8%;
   aspect-ratio: 1 / 3.5;
   opacity: 0.3;
   cursor: pointer;
@@ -114,16 +116,16 @@ export default function Slider({ title, pathKey }: ISliderProps) {
 
   const getOffset = (width: number) => {
     let offset = 6;
-    if (width < 1280) offset = 5;
-    if (width < 1024) offset = 4;
-    if (width < 768) offset = 3;
+    if (width < 1400) offset = 5;
+    if (width < 1100) offset = 4;
+    if (width < 800) offset = 3;
+    if (width < 500) offset = 2;
     return offset;
   };
 
   const width = useWindowWidth();
   const offset = getOffset(width);
-  const sliderH = ((width * 0.9 - (offset - 1) * 10) / offset / 27) * 50;
-  // 차후 계산식 수정 필요.
+  const movieH = ((width * 0.9 - (offset - 1) * 10) / offset / 27) * 40; // 근사치 계산식. 완벽히 정확치 않음.
 
   const handleNext = () => {
     if (data) {
@@ -151,7 +153,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   return (
-    <Container height={sliderH}>
+    <Container movieH={movieH}>
       <Title>{title}</Title>
 
       <AnimatePresence
@@ -175,7 +177,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
         </Row>
       </AnimatePresence>
 
-      <PrevBtn onClick={handlePrev}>
+      <PrevBtn onClick={handlePrev} movieH={movieH}>
         <svg
           data-slot="icon"
           fill="currentColor"
@@ -190,7 +192,7 @@ export default function Slider({ title, pathKey }: ISliderProps) {
           ></path>
         </svg>
       </PrevBtn>
-      <NextBtn onClick={handleNext}>
+      <NextBtn onClick={handleNext} movieH={movieH}>
         <svg
           data-slot="icon"
           fill="currentColor"

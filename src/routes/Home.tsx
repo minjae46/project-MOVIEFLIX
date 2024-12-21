@@ -33,7 +33,7 @@ const Title = styled.h1`
 
 const Overview = styled.p`
   width: 30%;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -43,11 +43,11 @@ const Overview = styled.p`
 
   @media (max-width: 1024px) {
     width: 40%;
-    font-size: 13px;
+    font-size: 15px;
   }
   @media (max-width: 768px) {
     width: 50%;
-    font-size: 11px;
+    font-size: 13px;
   }
 `;
 
