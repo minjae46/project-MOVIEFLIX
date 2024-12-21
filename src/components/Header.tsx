@@ -85,7 +85,6 @@ const Input = styled(motion.input)`
 export default function Header() {
   const [scrollDown, setScrollDown] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

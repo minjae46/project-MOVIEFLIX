@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
@@ -59,7 +59,6 @@ const PrevBtn = styled.span<{ movieH: number }>`
   position: absolute;
   left: 0;
   top: 8%;
-  aspect-ratio: 1 / 3.5;
   opacity: 0.3;
   cursor: pointer;
   &:hover {
@@ -78,7 +77,6 @@ const NextBtn = styled.span<{ movieH: number }>`
   position: absolute;
   right: 0;
   top: 8%;
-  aspect-ratio: 1 / 3.5;
   opacity: 0.3;
   cursor: pointer;
   &:hover {
@@ -110,21 +108,20 @@ export default function Slider({ title, pathKey }: ISliderProps) {
     getMovies(pathKey)
   );
 
+  const width = useWindowWidth();
+
   const [leaving, setLeaving] = useState(false); // 유저가 클릭을 빠르게 여러번 했을때 애니메이션이 정상적으로 작동하지 않는 것을 방지하기 위함.
   const [back, setBack] = useState(false);
   const [index, setIndex] = useState(0); // 현재 슬라이더에서 가장 첫 번째 영화의 위치.
+  const [offset, setOffset] = useState(0);
 
-  const getOffset = (width: number) => {
-    let offset = 6;
-    if (width < 1400) offset = 5;
-    if (width < 1100) offset = 4;
-    if (width < 800) offset = 3;
-    if (width < 500) offset = 2;
-    return offset;
-  };
+  useEffect(() => {
+    if (width >= 1400) setOffset(6);
+    if (width < 1400) setOffset(5);
+    if (width < 1100) setOffset(4);
+    if (width < 800) setOffset(3);
+  }, [width]);
 
-  const width = useWindowWidth();
-  const offset = getOffset(width);
   const movieH = ((width * 0.9 - (offset - 1) * 10) / offset / 27) * 40; // 근사치 계산식. 완벽히 정확치 않음.
 
   const handleNext = () => {
