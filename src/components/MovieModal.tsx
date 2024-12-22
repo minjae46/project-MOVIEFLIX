@@ -21,7 +21,8 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Modal = styled(motion.div)`
-  width: 50vw;
+  width: 60vw;
+  min-width: 480px;
   height: 90vh;
   z-index: 10;
   background-color: black;
@@ -38,7 +39,7 @@ const Overlay = styled(motion.div)`
 `;
 
 const Header = styled.div<{ backdropimg: string }>`
-  height: 65%;
+  height: 70%;
   padding: 10px;
   display: flex;
   justify-content: flex-end;
