@@ -15,8 +15,11 @@ const Container = styled.div<{ movieH: number }>`
 `;
 
 const Title = styled.h2`
-  font-size: 20px;
+  font-size: 25px;
 
+  @media (max-width: 1600px) {
+    font-size: 21px;
+  }
   @media (max-width: 1200px) {
     font-size: 19px;
   }

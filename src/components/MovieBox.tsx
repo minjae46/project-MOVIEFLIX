@@ -23,13 +23,11 @@ const Box = styled(motion.div)<{ bgimg: string; offset: number }>`
 
 const InfoBox = styled(motion.div)`
   width: 100%;
-  height: 20%;
-  min-height: 60px;
   display: flex;
   flex-direction: column;
   padding: 10px;
   position: relative;
-  top: 85%;
+  top: 95%;
   opacity: 0;
   background-color: black;
   border-bottom-right-radius: 5px;
@@ -40,6 +38,16 @@ const Title = styled.h1`
   font-size: 14px;
   font-weight: 800;
   line-height: 1.2;
+
+  @media (max-width: 1600px) {
+    font-size: 13px;
+  }
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media (max-width: 900px) {
+    font-size: 11px;
+  }
 `;
 
 const Info = styled.div`
@@ -54,6 +62,13 @@ const Text = styled.div`
   span {
     font-size: 11px;
     opacity: 0.6;
+
+    @media (max-width: 1200px) {
+      font-size: 10px;
+    }
+    @media (max-width: 900px) {
+      font-size: 9px;
+    }
   }
 `;
 
@@ -67,6 +82,10 @@ const MoreBtn = styled.div`
       cursor: pointer;
     }
     transition: 0.4s;
+  }
+
+  @media (max-width: 1200px) {
+    width: 20px;
   }
 `;
 

@@ -21,22 +21,20 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Modal = styled(motion.div)`
-  width: 50vw;
+  width: 90vw;
+  max-width: 900px;
   min-width: 400px;
   height: 90vh;
   z-index: 10;
   background-color: black;
   border-radius: 10px;
   overflow-y: scroll;
+  position: relative;
+`;
 
-  //position: relative;
-
-  img {
-    //background-image: linear-gradient(to top, black, transparent);
-    width: 100%;
-    //height: 70%;
-    object-fit: contain;
-  }
+const BackdropImg = styled.img`
+  width: 100%;
+  object-fit: contain;
 `;
 
 const Overlay = styled(motion.div)`
@@ -47,16 +45,16 @@ const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
-const Header = styled.div<{ backdropimg: string }>`
-  height: 70%;
-  padding: 10px;
-  display: flex;
-  justify-content: flex-end;
-  background-image: linear-gradient(to top, black, transparent),
-    url("${(props) => props.backdropimg}");
-  background-size: cover;
-  background-position: top;
-`;
+// const Header = styled.div<{ backdropimg: string }>`
+//   height: 70%;
+//   padding: 10px;
+//   display: flex;
+//   justify-content: flex-end;
+//   background-image: linear-gradient(to top, black, transparent),
+//     url("${(props) => props.backdropimg}");
+//   background-size: cover;
+//   background-position: top;
+// `;
 
 const CloseBtn = styled.div`
   position: absolute;
@@ -76,7 +74,7 @@ const CloseBtn = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 30px;
+  padding: 25px;
 `;
 
 const Title = styled.h1`
@@ -143,8 +141,8 @@ export default function MovieModal({
   return (
     <Wrapper>
       <Modal layoutId={layoutId + id}>
-        <Header backdropimg={makeImagePath(data?.backdrop_path || "")}></Header>
-        {/* <CloseBtn onClick={handleCloseClick}>
+        {/* <Header backdropimg={makeImagePath(data?.backdrop_path || "")}></Header> */}
+        <CloseBtn onClick={handleCloseClick}>
           <svg
             data-slot="icon"
             viewBox="0 0 20 20"
@@ -157,8 +155,10 @@ export default function MovieModal({
               d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
             ></path>
           </svg>
-        </CloseBtn> */}
-        {/* <img src={makeImagePath(data?.backdrop_path || "")}></img> */}
+        </CloseBtn>
+        <BackdropImg
+          src={makeImagePath(data?.backdrop_path || "")}
+        ></BackdropImg>
         <Content>
           <Title>{title}</Title>
           <InfoBox>
