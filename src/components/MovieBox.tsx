@@ -23,11 +23,13 @@ const Box = styled(motion.div)<{ bgimg: string; offset: number }>`
 
 const InfoBox = styled(motion.div)`
   width: 100%;
+  height: 20%;
+  min-height: 60px;
   display: flex;
   flex-direction: column;
   padding: 10px;
   position: relative;
-  top: 80%;
+  top: 85%;
   opacity: 0;
   background-color: black;
   border-bottom-right-radius: 5px;
