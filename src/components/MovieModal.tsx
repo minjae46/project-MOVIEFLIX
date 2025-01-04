@@ -25,16 +25,16 @@ const Modal = styled(motion.div)`
   max-width: 900px;
   min-width: 400px;
   height: 90vh;
+  min-height: 590px;
   z-index: 10;
   background-color: black;
   border-radius: 10px;
   overflow-y: scroll;
   position: relative;
-`;
 
-const BackdropImg = styled.img`
-  width: 100%;
-  object-fit: contain;
+  @media (min-height: 1000px) {
+    height: 65vh;
+  }
 `;
 
 const Overlay = styled(motion.div)`
@@ -44,17 +44,6 @@ const Overlay = styled(motion.div)`
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
 `;
-
-// const Header = styled.div<{ backdropimg: string }>`
-//   height: 70%;
-//   padding: 10px;
-//   display: flex;
-//   justify-content: flex-end;
-//   background-image: linear-gradient(to top, black, transparent),
-//     url("${(props) => props.backdropimg}");
-//   background-size: cover;
-//   background-position: top;
-// `;
 
 const CloseBtn = styled.div`
   position: absolute;
@@ -73,15 +62,27 @@ const CloseBtn = styled.div`
   }
 `;
 
+const BackdropImg = styled.img`
+  width: 100%;
+  object-fit: contain;
+`;
+
 const Content = styled.div`
   padding: 25px;
 `;
 
 const Title = styled.h1`
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 20px;
+
+  @media (max-width: 900px) {
+    font-size: 30px;
+  }
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -98,18 +99,14 @@ const Info = styled.div`
     font-size: 16px;
     opacity: 0.6;
     margin-bottom: 5px;
-  }
-`;
 
-const Description = styled.p`
-  font-size: 16px;
-  opacity: 0.9;
-  line-height: 1.4;
-  margin-bottom: 15px;
-  /* text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; */
+    @media (max-width: 900px) {
+      font-size: 15px;
+    }
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
 `;
 
 const Genres = styled.ul`
@@ -118,6 +115,27 @@ const Genres = styled.ul`
   li {
     font-size: 20px;
     font-weight: 600;
+
+    @media (max-width: 900px) {
+      font-size: 17px;
+    }
+    @media (max-width: 600px) {
+      font-size: 15px;
+    }
+  }
+`;
+
+const Description = styled.p`
+  font-size: 16px;
+  opacity: 0.9;
+  line-height: 1.4;
+  margin-bottom: 15px;
+
+  @media (max-width: 900px) {
+    font-size: 15px;
+  }
+  @media (max-width: 600px) {
+    font-size: 14px;
   }
 `;
 
@@ -141,7 +159,6 @@ export default function MovieModal({
   return (
     <Wrapper>
       <Modal layoutId={layoutId + id}>
-        {/* <Header backdropimg={makeImagePath(data?.backdrop_path || "")}></Header> */}
         <CloseBtn onClick={handleCloseClick}>
           <svg
             data-slot="icon"
