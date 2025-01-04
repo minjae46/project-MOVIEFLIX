@@ -21,7 +21,7 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Modal = styled(motion.div)`
-  width: 90vw;
+  width: 80vw;
   max-width: 850px;
   min-width: 400px;
   height: 90vh;
@@ -33,7 +33,7 @@ const Modal = styled(motion.div)`
   position: relative;
 
   @media (min-height: 1000px) {
-    height: 65vh;
+    height: 70vh;
   }
 `;
 
@@ -173,9 +173,7 @@ export default function MovieModal({
             ></path>
           </svg>
         </CloseBtn>
-        <BackdropImg
-          src={makeImagePath(data?.backdrop_path || "")}
-        ></BackdropImg>
+        <BackdropImg src={makeImagePath(data?.backdrop_path || "")} />
         <Content>
           <Title>{title}</Title>
           <InfoBox>
