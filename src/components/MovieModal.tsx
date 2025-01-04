@@ -22,7 +22,7 @@ const Wrapper = styled(motion.div)`
 
 const Modal = styled(motion.div)`
   width: 90vw;
-  max-width: 900px;
+  max-width: 850px;
   min-width: 400px;
   height: 90vh;
   min-height: 590px;

@@ -3,10 +3,11 @@ import { useQuery } from "react-query";
 import { getPopularMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils/utils";
 import Slider from "../components/Slider";
+import Footer from "../components/Footer";
 
 const Banner = styled.div<{ backdropimg: string }>`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,8 +57,6 @@ const Overview = styled.p`
 
 const SliderContainer = styled.div`
   width: 100vw;
-  position: absolute;
-  top: 90vh;
 `;
 
 const sliderList = [
@@ -81,6 +80,7 @@ export default function Home() {
           <Slider key={index} title={slider.title} pathKey={slider.pathKey} />
         ))}
       </SliderContainer>
+      <Footer />
     </>
   );
 }
