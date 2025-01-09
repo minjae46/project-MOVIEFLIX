@@ -30,7 +30,7 @@ const Banner = styled.img`
 
 const InfoBox = styled.div`
   position: absolute;
-  top: 45%;
+  top: 35%;
   left: 5%;
 `;
 
@@ -73,7 +73,7 @@ const SliderContainer = styled.div`
   width: 100vw;
   background-color: inherit;
   position: absolute;
-  top: 90vh;
+  margin-top: -10%;
 `;
 
 const sliderList = [

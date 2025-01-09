@@ -25,7 +25,6 @@ const Modal = styled(motion.div)`
   max-width: 850px;
   min-width: 400px;
   height: 90vh;
-  min-height: 590px;
   z-index: 10;
   background-color: black;
   border-radius: 10px;
