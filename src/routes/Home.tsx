@@ -24,8 +24,8 @@ const BannerContainer = styled.div`
 
 const Banner = styled.img`
   width: 100%;
-  max-height: 90vh;
   object-fit: contain;
+  mask-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 `;
 
 const InfoBox = styled.div`
@@ -71,6 +71,9 @@ const Overview = styled.p`
 
 const SliderContainer = styled.div`
   width: 100vw;
+  background-color: inherit;
+  position: absolute;
+  top: 90vh;
 `;
 
 const sliderList = [
@@ -99,9 +102,8 @@ export default function Home() {
         {sliderList.map((slider, index) => (
           <Slider key={index} title={slider.title} pathKey={slider.pathKey} />
         ))}
+        <Footer />
       </SliderContainer>
-
-      <Footer />
     </>
   );
 }

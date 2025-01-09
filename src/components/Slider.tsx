@@ -15,6 +15,7 @@ const Container = styled.div<{ movieH: number }>`
 `;
 
 const Title = styled.h2`
+  background-color: inherit;
   font-size: 25px;
 
   @media (max-width: 1600px) {
