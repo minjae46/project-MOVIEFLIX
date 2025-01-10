@@ -73,6 +73,20 @@ const Item = styled.li<{ selected: boolean }>`
   transition: opacity 0.3s ease-in-out;
 `;
 
+const MenuMobile = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 350px;
+  padding: 20px 0;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: black;
+  z-index: 99;
+`;
+
 const Search = styled.div`
   display: flex;
   align-items: center;
@@ -100,18 +114,6 @@ const Input = styled(motion.input)`
   z-index: -1;
 `;
 
-const MenuMobile = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding-top: 20px;
-
-  @media (min-width: 700px) {
-    display: none;
-  }
-`;
-
 export default function Header() {
   const [scrollDown, setScrollDown] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -120,6 +122,7 @@ export default function Header() {
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
   const keyword = searchParams.get("keyword");
+  const [mouseHover, setMouseHover] = useState(false);
 
   // useScroll, useTransform 훅 사용하는 방법
   // const { scrollY } = useScroll();
@@ -128,6 +131,13 @@ export default function Header() {
   //   [0, 200],
   //   ["rgba(0,0,0,0)", "rgba(0,0,0,1)"]
   // );
+
+  const handleMouseOver = () => {
+    setMouseHover(true);
+  };
+  const handleMouseLeave = () => {
+    setMouseHover(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,6 +179,7 @@ export default function Header() {
 
   return (
     <Nav
+      onMouseLeave={handleMouseLeave}
       // style={{ backgroundColor: navBgColor }}
       initial={{ backgroundColor: "rgba(0,0,0,0)" }}
       animate={{
@@ -195,7 +206,7 @@ export default function Header() {
             />
           </Logo>
 
-          <Hambg>
+          <Hambg onMouseOver={handleMouseOver}>
             <svg
               data-slot="icon"
               fill="currentColor"
@@ -265,23 +276,25 @@ export default function Header() {
         </Col>
       </ColContainer>
 
-      <MenuMobile>
-        <Item selected={pathname === "/" && true}>
-          <Link to="/">홈</Link>
-        </Item>
-        <Item selected={pathname === "/popular" && true}>
-          <Link to="/popular">대세 인기작</Link>
-        </Item>
-        <Item selected={pathname === "/nowplaying" && true}>
-          <Link to="/nowplaying">현재 상영작</Link>
-        </Item>
-        <Item selected={pathname === "/upcoming" && true}>
-          <Link to="/upcoming">개봉 예정작</Link>
-        </Item>
-        <Item selected={pathname === "/toprated" && true}>
-          <Link to="/toprated">최고 평점작</Link>
-        </Item>
-      </MenuMobile>
+      {mouseHover && (
+        <MenuMobile>
+          <Item selected={pathname === "/" && true}>
+            <Link to="/">홈</Link>
+          </Item>
+          <Item selected={pathname === "/popular" && true}>
+            <Link to="/popular">대세 인기작</Link>
+          </Item>
+          <Item selected={pathname === "/nowplaying" && true}>
+            <Link to="/nowplaying">현재 상영작</Link>
+          </Item>
+          <Item selected={pathname === "/upcoming" && true}>
+            <Link to="/upcoming">개봉 예정작</Link>
+          </Item>
+          <Item selected={pathname === "/toprated" && true}>
+            <Link to="/toprated">최고 평점작</Link>
+          </Item>
+        </MenuMobile>
+      )}
     </Nav>
   );
 }
